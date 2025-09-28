@@ -14,8 +14,8 @@ module.exports = {
     
     colors: {
       myGray: "#6b7280",
-      myWhite: "#fdfdfd",
-      myBlack: "#121621",
+      myWhite: "#f8f8ff",
+      myBlack: "#0F0F0F",
     }
   },
   plugins: [
