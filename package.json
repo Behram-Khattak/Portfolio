@@ -13,7 +13,8 @@
     "@fortawesome/free-solid-svg-icons": "^6.4.2",
     "@fortawesome/vue-fontawesome": "^3.0.3",
     "flowbite": "^2.1.1",
-    "vue": "^3.3.4"
+    "vue": "^3.3.4",
+    "vue3-carousel": "^0.16.0"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^6.0.1",
