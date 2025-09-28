@@ -72,7 +72,7 @@ defineProps({
       <!-- Prepare a container for your calendar. -->
       <div class="p-4 border border-gray-600 shadow-lg sm:p-6 rounded-xl">
         <h2 class="mb-4 font-bold sm:text-xl text-myWhite dark:text-myBlack">
-          Contribution Graph
+          My Contribution Graph
         </h2>
         <div class="overflow-x-auto">
           <img
