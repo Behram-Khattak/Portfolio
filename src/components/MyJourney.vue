@@ -7,7 +7,7 @@
       id="myJourney"
     >
       <div class="text-2xl font-bold text-center capitalize sm:text-4xl text-myWhite dark:text-myBlack">
-        <h1>my <span class="underline decoration-wavy underline-offset-4">skillful</span> journey</h1>
+        <h1>my <span class="underline decoration-wavy decoration-indigo-500 underline-offset-4">skillful</span> journey</h1>
       </div>
 
       <div
@@ -24,7 +24,7 @@
           >
             <li class="me-2" role="presentation">
               <button
-                class="inline-block p-4 border-b-2 rounded-t-lg text-myGray border-myGray hover:text-myWhite hover:border-myWhite dark:focus:text-myWhite dark:focus:border-myWhite"
+                class="inline-block p-4 rounded-t-lg hover:underline focus:underline underline-offset-8 decoration-wavy hover:decoration-indigo-500 dark:hover:text-indigo-500 text-myWhite hover:text-indigo-500 dark:focus:text-indigo-500"
                 id="profile-tab"
                 data-tabs-target="#profile"
                 type="button"
@@ -37,7 +37,7 @@
             </li>
             <li class="me-2" role="presentation">
               <button
-                class="inline-block p-4 border-b-2 rounded-t-lg text-myGray border-myGray hover:text-myWhite hover:border-myWhite focus:text-myWhite focus:border-myWhite"
+                class="inline-block p-4 rounded-t-lg hover:underline focus:underline underline-offset-8 decoration-wavy hover:decoration-indigo-500 dark:hover:text-indigo-500 text-myWhite hover:text-indigo-500 dark:focus:text-indigo-500"
                 id="dashboard-tab"
                 data-tabs-target="#dashboard"
                 type="button"
@@ -50,7 +50,7 @@
             </li>
             <li class="me-2" role="presentation">
               <button
-                class="inline-block p-4 border-b-2 rounded-t-lg text-myGray border-myGray hover:text-myWhite hover:border-myWhite focus:text-myWhite focus:border-myWhite"
+                class="inline-block p-4 rounded-t-lg hover:underline focus:underline underline-offset-8 decoration-wavy hover:decoration-indigo-500 dark:hover:text-indigo-500 text-myWhite hover:text-indigo-500 dark:focus:text-indigo-500"
                 id="settings-tab"
                 data-tabs-target="#settings"
                 type="button"
@@ -63,7 +63,7 @@
             </li>
             <li role="presentation">
               <button
-                class="inline-block p-4 border-b-2 rounded-t-lg text-myGray border-myGray hover:text-myWhite hover:border-myWhite focus:text-myWhite focus:border-myWhite"
+                class="inline-block p-4 rounded-t-lg hover:underline focus:underline underline-offset-8 decoration-wavy hover:decoration-indigo-500 dark:hover:text-indigo-500 text-myWhite hover:text-indigo-500 dark:focus:text-indigo-500"
                 id="contacts-tab"
                 data-tabs-target="#contacts"
                 type="button"
@@ -116,10 +116,10 @@
               2021, and still working with these Frameworks creating projects
               like:
               <br />
-              <span class="leading-loose underline decoration-wavy underline-offset-8 decoration-myWhite">CMS Content Management Systems</span><br />
-              <span class="leading-loose underline decoration-wavy underline-offset-8 decoration-myWhite">Custom E-commerce Platforms</span><br />
-              <span class="leading-loose underline decoration-wavy underline-offset-8 decoration-myWhite">Chat Applications</span><br />
-              <span class="leading-loose underline decoration-wavy underline-offset-8 decoration-myWhite">LMS (Learning Management Systems)</span><br />
+              <span class="leading-loose underline decoration-wavy decoration-indigo-500 underline-offset-8">CMS Content Management Systems</span><br />
+              <span class="leading-loose underline decoration-wavy decoration-indigo-500 underline-offset-8">Custom E-commerce Platforms</span><br />
+              <span class="leading-loose underline decoration-wavy decoration-indigo-500 underline-offset-8">Chat Applications</span><br />
+              <span class="leading-loose underline decoration-wavy decoration-indigo-500 underline-offset-8">LMS (Learning Management Systems)</span><br />
             </p>
           </div>
           <div

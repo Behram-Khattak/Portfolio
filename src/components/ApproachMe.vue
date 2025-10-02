@@ -7,7 +7,7 @@
       id="approachMe"
     >
       <div class="text-2xl font-bold text-center capitalize sm:text-4xl text-myWhite dark:text-myBlack">
-        <h1>approach me <span class="underline decoration-wavy underline-offset-4">here</span></h1>
+        <h1>approach me <span class="underline decoration-wavy decoration-indigo-500 underline-offset-4">here</span></h1>
       </div>
 
       <div class="section-content">
@@ -20,7 +20,7 @@
             </span>
 
             <span class="font-bold leading-loose">
-              <span class="underline decoration-wavy underline-offset-4">Whatsapp Business Call</span> <br />
+              <span class="underline decoration-wavy decoration-indigo-500 underline-offset-4">Whatsapp Business Call</span> <br />
               <a href="tel:+923319218866" class="text-myGray"> +974-66917419 </a>
             </span>
           </div>
@@ -31,7 +31,7 @@
             </span>
 
             <span class="font-bold leading-loose">
-              <span class="underline decoration-wavy underline-offset-4">Business Mail</span> <br />
+              <span class="underline decoration-wavy decoration-indigo-500 underline-offset-4">Business Mail</span> <br />
               <a
                 href="mailto:behramkttk9@gmail.com"
                 target="_blank"

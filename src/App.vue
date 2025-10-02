@@ -6,10 +6,10 @@ import AboutMe from "@/components/AboutMe.vue";
 import MyJourney from "@/components/MyJourney.vue";
 import MyArts from "@/components/MyArts.vue";
 import Tools from "@/components/Tools.vue";
+import ApproachMe from "./components/ApproachMe.vue";
 
 import { onMounted } from "vue";
 import { initFlowbite } from "flowbite";
-import ApproachMe from "./components/ApproachMe.vue";
 
 // initialize components based on data attribute selectors
 onMounted(() => {
@@ -25,22 +25,21 @@ onMounted(() => {
   <main class="max-w-screen-lg px-4 mx-auto">
     <!-- who am i -->
     <WhoAmI />
-
-    <!-- about me -->
-     <!-- <AboutMe /> -->
+    
+    <!-- about my experience -->
+    <!-- <AboutMe /> -->
 
     <!-- my journey -->
-     <MyJourney />
+    <MyJourney />
 
     <!-- my arts -->
-     <MyArts />
+    <MyArts />
 
     <!-- tools and skills -->
-    <Tools /> 
+    <Tools />
 
     <!-- approach me -->
-     <ApproachMe /> 
-    
+    <ApproachMe />
   </main>
 
   <footer>
@@ -50,6 +49,6 @@ onMounted(() => {
 
 <script>
 export default {
-  
+  // 
 };
 </script>

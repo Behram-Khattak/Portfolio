@@ -1,21 +1,121 @@
-<script setup></script>
+<script setup>
+import { ref } from "vue";
+
+const work = ref([
+  {
+    id: 1,
+    name: "Creative Networks",
+    designation: 'Web Engineer',
+    timeline: '',
+    summary:
+      "Join Us On Our Engaging Social Media Journey As We Curate And Share The Best Quotes Every Day. Connect With Us On Pinterest And Instagram To Enhance Your Personal Growth And Enrich Your Daily Life.",
+    link: "https://www.creative-n.com/",
+  },
+  {
+    id: 2,
+    title: "Safe Solutions Consultants",
+    designation: 'Backend Engineer',
+    summary:
+      "Cogni® is expanding Wellness for All, Always Providing virtual solutions to accelerate wellness results so that Wellness Programs and Mental Health Providers support more people without delay.",
+    tools: ["#laravel", "#bootstrap", "#javascript"],
+    link: "https://safesolutionsconsultants.com/",
+  },
+]);
+</script>
 
 <template>
-  <section class="AboutMe">
+  <section class="work">
     <div
       class="container flex flex-col items-center justify-center py-16 mx-auto space-y-5"
       id="aboutMe"
     >
-      <div class="text-2xl font-bold text-center capitalize sm:text-4xl text-myWhite dark:text-myBlack">
-        <h1>about <span class="underline decoration-wavy underline-offset-4">me</span></h1>
+      <div
+        class="text-2xl font-bold text-center capitalize sm:text-4xl text-myWhite dark:text-myBlack"
+      >
+        <h1>
+          my
+          <span
+            class="underline decoration-indigo-500 decoration-wavy underline-offset-4"
+            >Experience with firms</span
+          >
+        </h1>
       </div>
-
-      <p class="grid text-xl text-center sm:text-2xl w-2/2 place-content-center text-myGray">
-        I am a qualified self-taught and a passionate Full Stack Web Developer
-        with 4 years of experience in Website Development and Designing on
-        real-time projects. Strong problem-solving, logical, creative, and
-        analytical skills. Everyday striving to learn new technologies.
-      </p>
+      <!--  -->
+      <div class="py-8">
+        <ol class="relative border-gray-200 border-s dark:border-gray-700">
+          <li class="mb-10 ms-4">
+            <div
+              class="absolute w-3 h-3 bg-gray-200 rounded-full mt-1.5 -start-1.5 border border-white dark:border-gray-900 dark:bg-gray-700"
+            ></div>
+            <time
+              class="mb-1 text-sm font-normal leading-none text-gray-400 dark:text-gray-500"
+              >February 2022</time
+            >
+            <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
+              Application UI code in Tailwind CSS
+            </h3>
+            <p
+              class="mb-4 text-base font-normal text-gray-500 dark:text-gray-400"
+            >
+              Get access to over 20+ pages including a dashboard layout, charts,
+              kanban board, calendar, and pre-order E-commerce & Marketing
+              pages.
+            </p>
+            <a
+              href="#"
+              class="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:outline-none focus:ring-gray-100 focus:text-blue-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 dark:focus:ring-gray-700"
+              >Learn more
+              <svg
+                class="w-3 h-3 ms-2 rtl:rotate-180"
+                aria-hidden="true"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 14 10"
+              >
+                <path
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M1 5h12m0 0L9 1m4 4L9 9"
+                /></svg
+            ></a>
+          </li>
+          <li class="mb-10 ms-4">
+            <div
+              class="absolute w-3 h-3 bg-gray-200 rounded-full mt-1.5 -start-1.5 border border-white dark:border-gray-900 dark:bg-gray-700"
+            ></div>
+            <time
+              class="mb-1 text-sm font-normal leading-none text-gray-400 dark:text-gray-500"
+              >March 2022</time
+            >
+            <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
+              Marketing UI design in Figma
+            </h3>
+            <p class="text-base font-normal text-gray-500 dark:text-gray-400">
+              All of the pages and components are first designed in Figma and we
+              keep a parity between the two versions even as we update the
+              project.
+            </p>
+          </li>
+          <li class="ms-4">
+            <div
+              class="absolute w-3 h-3 bg-gray-200 rounded-full mt-1.5 -start-1.5 border border-white dark:border-gray-900 dark:bg-gray-700"
+            ></div>
+            <time
+              class="mb-1 text-sm font-normal leading-none text-gray-400 dark:text-gray-500"
+              >April 2022</time
+            >
+            <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
+              E-Commerce UI code in Tailwind CSS
+            </h3>
+            <p class="text-base font-normal text-gray-500 dark:text-gray-400">
+              Get started with dozens of web components and interactive elements
+              built on top of Tailwind CSS.
+            </p>
+          </li>
+        </ol>
+      </div>
     </div>
   </section>
 </template>

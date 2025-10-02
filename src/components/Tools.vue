@@ -9,7 +9,7 @@
     >
       <h1>
         Tools i
-        <span class="underline decoration-wavy underline-offset-4">prefer</span>
+        <span class="underline decoration-wavy decoration-indigo-500 underline-offset-4">prefer</span>
       </h1>
     </div>
 
