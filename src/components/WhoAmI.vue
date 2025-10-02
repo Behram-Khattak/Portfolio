@@ -9,15 +9,30 @@ defineProps({
     <div
       class="container flex flex-col items-center justify-center py-16 mx-auto mb-8 space-y-8"
     >
-
-      <div class="grid text-center capitalize place-items-center name-and-designation">
+      <div
+        class="grid text-center capitalize place-items-center name-and-designation"
+      >
         <h3
-          class="text-3xl font-bold sm:text-5xl text-myWhite dark:text-myBlack"
+          class="space-y-6 text-3xl font-bold sm:text-5xl text-myWhite dark:text-myBlack"
         >
-          Web Software Engineer <br> Linux Server Admin
+          <div>
+            Web
+            <span class="underline decoration-wavy decoration-indigo-500"
+              >Software</span
+            >
+            Engineer
+          </div>
+          <!--  -->
+          <div>
+            Linux
+            <span class="underline decoration-wavy decoration-indigo-500"
+              >Server</span
+            >
+            Admin
+          </div>
         </h3>
         <br />
-        <p class="sm:w-2/3 text-myWhite dark:text-myBlack">
+        <p class="text-myGray sm:w-2/3">
           I'm Behram Khattak, a Web Software Engineer, who is passionate about
           building large scale web apps. Who's also enthusiast about Linux
           Server Administration & Cloud Computing.
@@ -82,7 +97,9 @@ defineProps({
           />
         </div>
         <div class="flex items-center justify-between mt-3 text-xs sm:text-sm">
-          <span class="text-myWhite dark:text-myBlack">My GitHub Contributions</span>
+          <span class="text-myWhite dark:text-myBlack"
+            >My GitHub Contributions</span
+          >
           <div class="flex items-center gap-1">
             <span class="w-3 h-3 rounded-sm bg-[#161b22]"></span>
             <span class="w-3 h-3 rounded-sm bg-[#0e4429]"></span>
