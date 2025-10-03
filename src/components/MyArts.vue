@@ -54,7 +54,7 @@ const projects = ref([
   <section class="MyArts">
     <div class="py-16" id="myArts">
       <div
-        class="text-2xl font-bold text-center capitalize sm:text-4xl text-myWhite dark:text-myBlack"
+        class="pb-8 text-2xl font-bold text-center capitalize sm:text-4xl text-myWhite dark:text-myBlack"
       >
         <h1>
           my

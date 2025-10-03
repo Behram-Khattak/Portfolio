@@ -1,5 +1,37 @@
 <script setup>
-//
+import { ref } from "vue";
+
+const tools = ref([
+  {
+    id: 1,
+    name: "Laravel",
+    icon: "fab fa-laravel",
+    color: "text-red-600 text-6xl sm:text-8xl",
+    link: "https://laravel.com/",
+  },
+  {
+    id: 2,
+    name: "Vue Js",
+    icon: "fab fa-vuejs",
+    color: "text-green-600 text-6xl sm:text-8xl",
+    link: "https://vuejs.org/",
+  },
+  {
+    id: 3,
+    name: "React Js",
+    icon: "fab fa-react",
+    color: "text-blue-400 text-6xl sm:text-8xl",
+    link: "https://react.dev/",
+  },
+  {
+    id: 4,
+    name: "Docker",
+    icon: "fab fa-docker",
+    color: "text-blue-500 text-6xl sm:text-8xl",
+    link: "https://www.docker.com/",
+  },
+]);
+
 </script>
 
 <template>
@@ -16,43 +48,15 @@
     <div
       class="grid grid-cols-2 py-16 text-center sm:grid-cols-4 text-myWhite dark:text-myBlack"
     >
-      <div class="py-4">
-        <a href="https://laravel.com/">
+      <div class="py-4"
+      v-for="tool in tools"
+      >
+        <a :href="tool.link" target="_blank">
           <font-awesome-icon
-            icon="fab fa-laravel"
-            class="text-6xl text-red-600 sm:text-8xl"
+            :icon="tool.icon"
+            :class="tool.color"
           /><br /><br />
-          <span>Laravel</span>
-        </a>
-      </div>
-
-      <div class="py-4">
-        <a href="https://vuejs.org/">
-          <font-awesome-icon
-            icon="fab fa-vuejs"
-            class="text-6xl text-green-600 sm:text-8xl"
-          /><br /><br />
-          <span>Vue Js</span>
-        </a>
-      </div>
-
-      <div class="py-4">
-        <a href="https://react.dev/">
-          <font-awesome-icon
-            icon="fab fa-react"
-            class="text-6xl text-blue-400 sm:text-8xl"
-          /><br /><br />
-          <span>React Js</span>
-        </a>
-      </div>
-
-      <div class="py-4">
-        <a href="https://www.docker.com/">
-          <font-awesome-icon
-            icon="fab fa-docker"
-            class="text-6xl text-blue-500 sm:text-8xl"
-          /><br /><br />
-          <span>Docker</span>
+          <span>{{ tool.name }}</span>
         </a>
       </div>
     </div>

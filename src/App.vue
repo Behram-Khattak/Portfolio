@@ -22,15 +22,12 @@ onMounted(() => {
     <Header />
   </header>
 
-  <main class="max-w-screen-lg px-4 mx-auto">
+  <main class="max-w-screen-xl px-4 mx-auto">
     <!-- who am i -->
     <WhoAmI />
     
     <!-- about my experience -->
-    <!-- <AboutMe /> -->
-
-    <!-- my journey -->
-    <MyJourney />
+    <AboutMe />
 
     <!-- my arts -->
     <MyArts />

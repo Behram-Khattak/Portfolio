@@ -93,7 +93,7 @@ defineProps({
           <img
             src="https://ghchart.rshah.org/behram-khattak"
             alt="GitHub Contributions Graph"
-            class="p-2 border border-gray-700 rounded-md w-[100em]"
+            class="p-2 border border-gray-700 rounded-md w-[60em]"
           />
         </div>
         <div class="flex items-center justify-between mt-3 text-xs sm:text-sm">
