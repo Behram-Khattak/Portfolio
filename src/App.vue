@@ -29,9 +29,6 @@ onMounted(() => {
     <!-- about my experience -->
     <AboutMe />
 
-    <!-- my arts -->
-    <MyArts />
-
     <!-- tools and skills -->
     <Tools />
 

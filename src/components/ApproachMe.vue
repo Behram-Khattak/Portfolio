@@ -3,7 +3,7 @@
 <template>
   <section class="ApproachMe">
     <div
-      class="container flex flex-col items-center justify-center py-16 mx-auto space-y-10"
+      class="container flex flex-col items-center justify-center py-16 mx-auto space-y-10 border-t border-myGray/20"
       id="approachMe"
     >
       <div class="text-2xl font-bold text-center capitalize sm:text-4xl text-myWhite dark:text-myBlack">
