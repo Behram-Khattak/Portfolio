@@ -7,13 +7,13 @@ defineProps({
 </script>
 
 <template>
-  <div class="max-w-screen-xl p-2 mx-auto bg-transparent">
+  <div class="max-w-screen-xl p-4 mx-auto bg-transparent">
     <div class="flex items-center justify-between">
       <!-- profile pic -->
       <div class="profile-avatar">
         <!-- <img :src="ProfilePic" class="w-16 rounded-full" alt="" /> -->
          <a href="/">
-           <span class="underline font-regular text-md decoration-wavy decoration-indigo-500">behramkttk.dev</span>
+           <span class="underline font-regular text-myWhite text-md decoration-wavy decoration-indigo-500 dark:text-myBlack">behramkttk.dev</span>
          </a>
       </div>
       <!-- theme change icon -->

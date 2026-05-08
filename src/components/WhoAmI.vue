@@ -11,7 +11,7 @@ defineProps({
 <template>
   <section class="pb-8 WhoAmI" id="whoAmI">
     <div
-      class="container mx-auto mb-8 space-y-8 xl:justify-between xl:items-center xl:flex"
+      class="container mx-auto mb-20 space-y-8 xl:justify-between xl:items-center xl:flex"
     >
       <!-- Info Text -->
       <InfoText />

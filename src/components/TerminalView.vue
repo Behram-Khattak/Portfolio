@@ -28,10 +28,10 @@ onUnmounted(() => {
 
 <template>
   <div
-    class="flex w-full max-w-5xl transition-all duration-500 shadow-2xl hover:shadow-indigo-500/10"
+    class="flex w-full max-w-5xl transition-all duration-500 border border-gray-800 shadow-2xl shadow-indigo-500/10 rounded-2xl bg-myBlack/80 backdrop-blur-sm dark:shadow-indigo-500/50"
   >
     <div
-      class="overflow-hidden font-mono border border-gray-800 rounded-xl bg-myBlack"
+      class="overflow-hidden font-mono border border-gray-800 rounded-2xl bg-myBlack"
     >
       <div
         class="flex items-center justify-between px-5 py-3 bg-[#2c343f] border-b border-gray-700"
@@ -44,7 +44,7 @@ onUnmounted(() => {
         <span class="text-xs text-gray-400 tracking-[0.2em] font-semibold"
           >ssh — behram@workspace</span
         >
-        <div class="text-[12px] text-gray-400 font-medium tracking-wider">
+        <div class="text-[12px] text-gray-400 font-medium tracking-wider hidden sm:block">
           {{ currentTime }}
         </div>
       </div>
