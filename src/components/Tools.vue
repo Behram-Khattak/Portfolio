@@ -51,6 +51,20 @@ const tools = ref([
     color: "dark:text-myBlack",
     shadow: "hover:shadow-amber-200",
   },
+  {
+    id: 8,
+    name: "SQLsrv / MySQL / PostgreSQL",
+    icon: "fas fa-database",
+    color: "text-gray-400",
+    shadow: "hover:shadow-amber-200",
+  },
+  {
+    id: 9,
+    name: "Next.js",
+    icon: "fab fa-github",
+    color: "text-myGray",
+    shadow: "hover:shadow-amber-200",
+  }
 ]);
 </script>
 
@@ -80,7 +94,7 @@ const tools = ref([
         <div v-for="tool in tools" :key="tool.id" class="relative group">
           <!-- The Minimalist Card -->
           <div
-            class="relative flex flex-col items-center justify-center h-full px-4 py-8 text-center transition-all duration-300 ease-in-out border group-hover:-translate-y-1 group-hover:border-transparent"
+            class="relative flex flex-col items-center justify-center h-full px-4 py-8 text-center transition-all duration-300 ease-in-out border border-gray-700 dark:border-gray-200 group-hover:-translate-y-1 group-hover:border-transparent"
             :class="tool.shadow"
           >
             <!-- Icon -->
@@ -88,8 +102,14 @@ const tools = ref([
               class="mb-6 transition-transform duration-500 transform group-hover:scale-110"
             >
               <font-awesome-icon
+                v-if="tool.name === 'Ubuntu'"
                 :icon="tool.icon"
                 :class="[tool.color, 'text-5xl md:text-6xl text-myWhite']"
+              />
+              <font-awesome-icon
+                v-else
+                :icon="tool.icon"
+                :class="[tool.color, 'text-5xl md:text-6xl']"
               />
             </div>
 
