@@ -3,7 +3,7 @@
 <template>
   <section class="relative py-24 overflow-hidden ApproachMe">
     <div
-      class="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-gray-200 to-transparent"
+      class="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent dark:via-gray-200 via-gray-600 to-transparent"
     ></div>
     <div
       class="container flex flex-col items-center justify-center py-16 mx-auto space-y-10 border-myGray/20"

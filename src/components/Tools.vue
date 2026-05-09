@@ -44,6 +44,13 @@ const tools = ref([
     color: "text-[#FFA116]",
     shadow: "hover:shadow-amber-200",
   },
+  {
+    id: 7,
+    name: "Ubuntu",
+    icon: "fab fa-linux",
+    color: "dark:text-myBlack",
+    shadow: "hover:shadow-amber-200",
+  },
 ]);
 </script>
 
@@ -51,7 +58,7 @@ const tools = ref([
   <section class="relative py-24 overflow-hidden">
     <!-- Subtle Top Border Accent -->
     <div
-      class="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-gray-200 to-transparent"
+      class="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent dark:via-gray-200 via-gray-600 to-transparent"
     ></div>
 
     <div class="container relative z-10 px-6 mx-auto">
@@ -69,11 +76,11 @@ const tools = ref([
       </div>
 
       <!-- Tools Grid -->
-      <div class="grid grid-cols-2 gap-8 md:grid-cols-3">
+      <div class="grid grid-cols-2 md:grid-cols-3">
         <div v-for="tool in tools" :key="tool.id" class="relative group">
           <!-- The Minimalist Card -->
           <div
-            class="relative flex flex-col items-center justify-center h-full px-4 py-8 text-center transition-all duration-300 ease-in-out group-hover:-translate-y-1 group-hover:border-transparent"
+            class="relative flex flex-col items-center justify-center h-full px-4 py-8 text-center transition-all duration-300 ease-in-out border group-hover:-translate-y-1 group-hover:border-transparent"
             :class="tool.shadow"
           >
             <!-- Icon -->
@@ -82,7 +89,7 @@ const tools = ref([
             >
               <font-awesome-icon
                 :icon="tool.icon"
-                :class="[tool.color, 'text-5xl md:text-6xl']"
+                :class="[tool.color, 'text-5xl md:text-6xl text-myWhite']"
               />
             </div>
 
