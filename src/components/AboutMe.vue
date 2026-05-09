@@ -43,7 +43,10 @@ const works = ref([
 </script>
 
 <template>
-  <section class="work">
+  <section class="relative py-24 overflow-hidden work">
+    <div
+      class="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-gray-200 to-transparent"
+    ></div>
     <div
       class="pb-8 text-2xl font-bold text-center capitalize sm:text-4xl text-myWhite dark:text-myBlack"
     >
