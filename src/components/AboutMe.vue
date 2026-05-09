@@ -3,6 +3,7 @@ import { ref } from "vue";
 import cnLogo from "@/assets/images/CN-logo.png";
 import sscLogo from "@/assets/images/ssc-logo.png";
 import ipsLogo from "@/assets/images/ips-logo.webp";
+import innLogo from "@/assets/images/innovatix-logo.png";
 import ExperienceCard from "@/components/ExperienceCard.vue";
 
 const works = ref([
@@ -36,7 +37,18 @@ const works = ref([
     timeline: "June 2023 - December 2023",
     summary:
       "Developed and deployed CRM and ERP systems using Laravel and Vue.js, improving business operations and client management.",
-    link: "https://safesolutionsconsultants.com/",
+    link: "https://iplexsoft.com/",
+    type: "left",
+  },
+  {
+    id: 4,
+    name: "Innovatix System Services",
+    logo: innLogo,
+    designation: "Software Developer",
+    timeline: "October 2025 - Ongoing",
+    summary:
+      "Developing and maintaining web applications, backend APIs, and client-based solutions using technologies such as Laravel, PHP, Next.js. My role involves bug fixing, feature development, system integration, database management, and collaborating with teams to deliver scalable and efficient software solutions for ongoing projects.",
+    link: "https://innovatixsystems.com/",
     type: "left",
   },
 ]);
@@ -72,6 +84,7 @@ const works = ref([
           :logo="work.logo"
           :timeline="work.timeline"
           :summary="work.summary"
+          :link="work.link"
         />
       </div>
     </div>
