@@ -60,7 +60,7 @@ const tools = ref([
   },
   {
     id: 9,
-    name: "Next.js",
+    name: "Github",
     icon: "fab fa-github",
     color: "text-myGray",
     shadow: "hover:shadow-amber-200",
