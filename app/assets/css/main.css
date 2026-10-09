@@ -1,0 +1,363 @@
+@import "tailwindcss";
+
+@theme {
+  --font-display: "Bricolage Grotesque", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "IBM Plex Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", monospace;
+
+  /* Careful: this makes `text-base` a colour (the page ground), not a font size. Use text-[1rem] for size. */
+  --color-base: var(--base);
+  --color-surface: var(--surface);
+  --color-raised: var(--raised);
+  --color-line: var(--line);
+  --color-fg: var(--fg);
+  --color-muted: var(--muted);
+  --color-accent: var(--accent);
+  --color-accent-strong: var(--accent-strong);
+  --color-accent-2: var(--accent-2);
+  --color-on-accent: var(--on-accent);
+  --color-signal: var(--signal);
+  --color-danger: var(--danger);
+  --color-ok: var(--ok);
+}
+
+/* Palette: smoke-white ground, charcoal ink, a ladder of greys. One theme only.
+   "Accent" is the ink itself and "accent-2" a smoky mid-grey, so gradients read as smoke. */
+:root {
+  --base: #f1f1ee;
+  --surface: #fafaf8;
+  --raised: #e6e6e2;
+  --line: #d2d2cd;
+  --fg: #17181a;
+  --muted: #6c6f74;
+  --accent: #17181a;
+  --accent-strong: #000000;
+  --accent-2: #9b9ea4;
+  --on-accent: #f4f4f1;
+  --signal: #9a6a14;
+  --danger: #b3261e;
+  --ok: #1f7a4d;
+  color-scheme: light;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    /* Two drifts of grey far apart: the smoke in the palette */
+    background:
+      radial-gradient(70rem 42rem at 108% 0%, rgb(118 122 128 / 0.16), transparent 70%),
+      radial-gradient(60rem 40rem at -12% 55%, rgb(118 122 128 / 0.12), transparent 70%),
+      var(--base);
+    background-attachment: fixed;
+    color: var(--fg);
+    font-family: "IBM Plex Sans", ui-sans-serif, system-ui, sans-serif;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  h1,
+  h2,
+  h3 {
+    font-family: "Bricolage Grotesque", ui-sans-serif, system-ui, sans-serif;
+    line-height: 1.02;
+    letter-spacing: -0.045em;
+    text-wrap: balance;
+  }
+  code,
+  pre,
+  kbd {
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+  }
+  :focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+  ::selection {
+    background: var(--accent);
+    color: var(--on-accent);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
+}
+
+@layer components {
+  .shell {
+    width: 100%;
+    max-width: 72rem;
+    margin-inline: auto;
+    padding-inline: 1.25rem;
+  }
+  @media (min-width: 768px) {
+    .shell {
+      padding-inline: 2rem;
+    }
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.4rem;
+    border-radius: 9999px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    line-height: 1.2;
+    border: 1px solid transparent;
+    transition: background-color 0.15s, border-color 0.15s, color 0.15s, box-shadow 0.2s, transform 0.2s;
+    cursor: pointer;
+  }
+  .btn:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+  }
+  .btn-primary {
+    background: var(--accent);
+    color: var(--on-accent);
+  }
+  .btn-primary:hover:not(:disabled) {
+    transform: translateY(-1px);
+    box-shadow: 0 12px 26px -12px color-mix(in srgb, var(--accent) 70%, transparent);
+  }
+  .btn-ghost {
+    border-color: var(--line);
+    color: var(--fg);
+  }
+  .btn-ghost:hover:not(:disabled) {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+  .btn-danger {
+    border-color: var(--line);
+    color: var(--danger);
+  }
+  .btn-danger:hover:not(:disabled) {
+    border-color: var(--danger);
+  }
+  .btn-sm {
+    padding: 0.45rem 0.95rem;
+    font-size: 0.85rem;
+  }
+
+  /* A charcoal block inside the light page. Custom properties resolve where they are declared,
+     so the Tailwind colour variables are restated here as well as the base tokens. */
+  .dark-band {
+    --base: #17181a;
+    --surface: #202226;
+    --raised: #2b2e33;
+    --line: #3a3d43;
+    --fg: #f1f1ee;
+    --muted: #a4a7ad;
+    --accent: #f1f1ee;
+    --accent-strong: #ffffff;
+    --accent-2: #8b8e94;
+    --on-accent: #17181a;
+    --ok: #63d49c;
+    --color-base: var(--base);
+    --color-surface: var(--surface);
+    --color-raised: var(--raised);
+    --color-line: var(--line);
+    --color-fg: var(--fg);
+    --color-muted: var(--muted);
+    --color-accent: var(--accent);
+    --color-accent-strong: var(--accent-strong);
+    --color-accent-2: var(--accent-2);
+    --color-on-accent: var(--on-accent);
+    --color-ok: var(--ok);
+    color: var(--fg);
+    background:
+      radial-gradient(46rem 26rem at 12% 0%, rgb(150 154 160 / 0.22), transparent 70%),
+      radial-gradient(40rem 24rem at 95% 100%, rgb(150 154 160 / 0.14), transparent 70%),
+      var(--base);
+  }
+
+  /* Ink-to-smoke gradient on text, for large display type */
+  .text-gradient {
+    background: linear-gradient(110deg, var(--accent), var(--accent-2));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  /* Cards rise slightly toward the pointer */
+  .lift {
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  }
+  .lift:hover {
+    transform: translateY(-4px);
+    border-color: color-mix(in srgb, var(--accent) 60%, var(--line));
+    box-shadow: 0 18px 40px -26px color-mix(in srgb, var(--accent) 55%, transparent);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .lift:hover {
+      transform: none;
+    }
+  }
+
+  /* Quiet scatter of terminal glyphs (+ / > .) used behind illustrations and image placeholders.
+     It is a mask, so the colour follows the theme. */
+  .glyph-texture {
+    position: relative;
+    isolation: isolate;
+  }
+  .glyph-texture::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background-color: color-mix(in srgb, var(--muted) 45%, transparent);
+    -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='64' fill='none' stroke='black' stroke-width='1.3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9h6M9 6v6M21 47l5-9M47 42l4 4-4 4'/%3E%3Ccircle cx='40' cy='15' r='1' fill='black' stroke='none'/%3E%3Ccircle cx='12' cy='30' r='1' fill='black' stroke='none'/%3E%3C/svg%3E") 0 0 / 64px 64px;
+    mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='64' fill='none' stroke='black' stroke-width='1.3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9h6M9 6v6M21 47l5-9M47 42l4 4-4 4'/%3E%3Ccircle cx='40' cy='15' r='1' fill='black' stroke='none'/%3E%3Ccircle cx='12' cy='30' r='1' fill='black' stroke='none'/%3E%3C/svg%3E") 0 0 / 64px 64px;
+  }
+
+  /* Technology pill; --h (hue) is set per badge by TechBadge.vue */
+  .tech-badge {
+    display: inline-block;
+    padding: 0.2rem 0.7rem;
+    border-radius: 9999px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    line-height: 1.5;
+    background: hsl(var(--h) 60% 50% / 0.12);
+    border: 1px solid hsl(var(--h) 45% 45% / 0.3);
+    color: hsl(var(--h) 55% 27%);
+  }
+
+  /* Copy button added to code blocks by useCodeCopy() */
+  .code-block {
+    position: relative;
+  }
+  .copy-code {
+    position: absolute;
+    top: 0.55rem;
+    right: 0.55rem;
+    padding: 0.2rem 0.65rem;
+    border: 1px solid var(--line);
+    border-radius: 0.4rem;
+    background: var(--raised);
+    color: var(--muted);
+    font-size: 0.78rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: color 0.15s, border-color 0.15s;
+  }
+  .copy-code:hover {
+    color: var(--fg);
+    border-color: var(--accent);
+  }
+  .copy-code[data-copied] {
+    color: var(--ok);
+    border-color: var(--ok);
+  }
+
+  /* The old site's wavy underline, kept as the link signature */
+  .link {
+    color: var(--accent);
+    text-decoration: underline;
+    /* Links are ink like the text around them, so they carry a quiet underline at rest */
+    text-decoration-color: color-mix(in srgb, currentColor 35%, transparent);
+    text-decoration-style: wavy;
+    text-underline-offset: 5px;
+    transition: text-decoration-color 0.15s;
+  }
+  .link:hover {
+    text-decoration-color: currentColor;
+  }
+
+  .field {
+    width: 100%;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 0.5rem;
+    padding: 0.6rem 0.8rem;
+    color: var(--fg);
+    font: inherit;
+  }
+  .field::placeholder {
+    color: var(--muted);
+    opacity: 0.7;
+  }
+  .field:focus {
+    outline: 2px solid var(--accent);
+    outline-offset: 0;
+    border-color: transparent;
+  }
+  .label {
+    display: block;
+    font-size: 0.9rem;
+    font-weight: 500;
+    margin-bottom: 0.35rem;
+  }
+
+  /* Rendered markdown (posts, case studies, about) */
+  .prose {
+    max-width: 68ch;
+    font-size: 1.05rem;
+    line-height: 1.75;
+  }
+  .prose > * + * {
+    margin-top: 1.15em;
+  }
+  .prose h2 {
+    font-size: 1.6rem;
+    margin-top: 2em;
+  }
+  .prose h3 {
+    font-size: 1.25rem;
+    margin-top: 1.6em;
+  }
+  .prose a {
+    color: var(--accent);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  .prose ul {
+    list-style: disc;
+    padding-left: 1.3em;
+  }
+  .prose ol {
+    list-style: decimal;
+    padding-left: 1.3em;
+  }
+  .prose li + li {
+    margin-top: 0.35em;
+  }
+  .prose blockquote {
+    border-left: 3px solid var(--accent);
+    padding-left: 1em;
+    color: var(--muted);
+  }
+  .prose code {
+    font-size: 0.9em;
+    background: var(--raised);
+    padding: 0.15em 0.4em;
+    border-radius: 0.3em;
+  }
+  .prose pre {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 0.6rem;
+    padding: 1em 1.2em;
+    overflow-x: auto;
+    font-size: 0.9rem;
+    line-height: 1.6;
+  }
+  .prose pre code {
+    background: none;
+    padding: 0;
+  }
+  .prose img {
+    border-radius: 0.6rem;
+    border: 1px solid var(--line);
+  }
+  .prose hr {
+    border-color: var(--line);
+    margin-block: 2em;
+  }
+}
