@@ -1,5 +1,7 @@
 <script setup lang="ts">
-const { data: services } = await useFetch("/api/services");
+import { services as allServices } from "~/data/services";
+
+const services = ref(allServices);
 useSeoMeta({
   title: "Services",
   description: "Website development, custom web applications, mobile apps and AI integration.",
@@ -35,8 +37,9 @@ useSeoMeta({
           </span>
           <h2 class="mt-5 text-3xl font-normal md:text-4xl">{{ service.title }}</h2>
           <p class="mt-3 max-w-[46ch] text-lg">{{ service.tagline }}</p>
-          <!-- eslint-disable-next-line vue/no-v-html -- rendered server-side with raw HTML disabled -->
-          <div class="prose mt-3 !text-[1rem] !leading-relaxed text-muted" v-html="service.descriptionHtml" />
+          <div class="prose mt-3 !text-[1rem] !leading-relaxed text-muted">
+            <p v-for="paragraph in service.description.split(/\n{2,}/)" :key="paragraph">{{ paragraph }}</p>
+          </div>
 
           <ul v-if="service.deliverables.length" class="mt-6 grid gap-x-6 gap-y-3 border-t border-line pt-6 sm:grid-cols-2">
             <li v-for="item in service.deliverables" :key="item" class="flex gap-2.5">
@@ -46,7 +49,7 @@ useSeoMeta({
           </ul>
 
           <div class="mt-8 flex flex-wrap gap-3">
-            <NuxtLink :to="{ path: '/contact', query: { service: service.title } }" class="btn btn-primary">Get a quote</NuxtLink>
+            <NuxtLink to="/contact" class="btn btn-primary">Get a quote</NuxtLink>
             <NuxtLink to="/projects" class="btn btn-ghost">See my work</NuxtLink>
           </div>
         </div>

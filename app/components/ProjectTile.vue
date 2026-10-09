@@ -1,15 +1,7 @@
 <script setup lang="ts">
-defineProps<{
-  project: {
-    slug: string;
-    title: string;
-    summary: string;
-    client: string;
-    year: string;
-    tech: string[];
-    cover: { url: string; thumb: string; alt: string; width: number; height: number } | null;
-  };
-}>();
+import type { Project } from "~/data/projects";
+
+defineProps<{ project: Project }>();
 </script>
 
 <template>

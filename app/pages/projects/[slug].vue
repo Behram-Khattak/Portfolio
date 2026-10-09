@@ -1,17 +1,18 @@
 <script setup lang="ts">
+import { projects } from "~/data/projects";
+import { services } from "~/data/services";
+
 const route = useRoute();
-const { data, error } = await useFetch(`/api/projects/${route.params.slug}`);
-if (error.value || !data.value) throw createError({ statusCode: 404, statusMessage: "Project not found", fatal: true });
-const project = data as Ref<NonNullable<typeof data.value>>;
+const found = projects.find((entry) => entry.slug === route.params.slug);
+if (!found) throw createError({ statusCode: 404, statusMessage: "Project not found", fatal: true });
+const linked = services.find((entry) => entry.slug === found.service);
+const project = ref({ ...found, service: linked ? { slug: linked.slug, title: linked.title } : null });
 
 useSeoMeta({
   title: project.value.title,
   description: project.value.summary,
   ogImage: project.value.cover?.url,
 });
-
-const body = ref<HTMLElement>();
-useCodeCopy(body);
 
 const facts = computed(() =>
   [
@@ -46,9 +47,10 @@ const facts = computed(() =>
       />
 
       <div class="mt-12 grid gap-12 md:grid-cols-[1.5fr_1fr]">
-        <!-- eslint-disable-next-line vue/no-v-html -- rendered server-side with raw HTML disabled -->
-        <div v-if="project.bodyHtml" ref="body" class="prose" v-html="project.bodyHtml" />
-        <dl v-if="facts.length || project.tech.length || project.service" class="h-fit space-y-4 rounded-xl border border-line bg-surface p-6" :class="{ 'md:col-start-1': !project.bodyHtml }">
+        <div v-if="project.body.length" class="prose">
+          <p v-for="paragraph in project.body" :key="paragraph">{{ paragraph }}</p>
+        </div>
+        <dl v-if="facts.length || project.tech.length || project.service" class="h-fit space-y-4 rounded-xl border border-line bg-surface p-6" :class="{ 'md:col-start-1': !project.body.length }">
           <div v-for="fact in facts" :key="fact.label">
             <dt class="text-sm text-muted">{{ fact.label }}</dt>
             <dd class="text-lg">{{ fact.value }}</dd>
@@ -67,7 +69,7 @@ const facts = computed(() =>
       <div v-if="project.gallery.length" class="mt-14 grid gap-6 md:grid-cols-2">
         <img
           v-for="image in project.gallery"
-          :key="image.id"
+          :key="image.url"
           :src="image.url"
           :alt="image.alt"
           :width="image.width"

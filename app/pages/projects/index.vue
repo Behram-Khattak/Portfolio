@@ -1,17 +1,20 @@
 <script setup lang="ts">
-const { data } = await useFetch("/api/projects");
+import { projects as allProjects } from "~/data/projects";
+import { services } from "~/data/services";
+
 useSeoMeta({ title: "Projects", description: "Websites, web applications and products I have built." });
 
-const projects = computed(() => data.value?.projects ?? []);
-const serviceFilters = computed(() => data.value?.services ?? []);
+const projects = ref(allProjects);
+// Only services that actually have projects are offered as filters
+const serviceFilters = computed(() => services.filter((service) => projects.value.some((project) => project.service === service.slug)));
 const techFilters = computed(() => [...new Set(projects.value.flatMap((project) => project.tech))].sort());
 
-const activeService = ref<number | null>(null);
+const activeService = ref<string | null>(null);
 const activeTech = ref<string | null>(null);
 const visible = computed(() =>
   projects.value.filter(
     (project) =>
-      (activeService.value === null || project.serviceId === activeService.value) &&
+      (activeService.value === null || project.service === activeService.value) &&
       (activeTech.value === null || project.tech.includes(activeTech.value)),
   ),
 );
@@ -27,7 +30,7 @@ const chip = (active: boolean) =>
       <div v-if="serviceFilters.length || techFilters.length > 1" class="space-y-3">
         <div v-if="serviceFilters.length" class="flex flex-wrap gap-2" role="group" aria-label="Filter by type">
           <button type="button" :class="chip(activeService === null)" :aria-pressed="activeService === null" @click="activeService = null">All types</button>
-          <button v-for="service in serviceFilters" :key="service.id" type="button" :class="chip(activeService === service.id)" :aria-pressed="activeService === service.id" @click="activeService = service.id">
+          <button v-for="service in serviceFilters" :key="service.slug" type="button" :class="chip(activeService === service.slug)" :aria-pressed="activeService === service.slug" @click="activeService = service.slug">
             {{ service.title }}
           </button>
         </div>

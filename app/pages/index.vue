@@ -1,8 +1,10 @@
 <script setup lang="ts">
-const site = await useSite();
-const { data } = await useFetch("/api/home");
-if (!data.value) throw createError({ statusCode: 500, statusMessage: "Homepage could not be loaded" });
-const home = data as Ref<NonNullable<typeof data.value>>;
+import { projects } from "~/data/projects";
+import { services } from "~/data/services";
+import { site as content } from "~/data/site";
+
+const site = useSite();
+const home = ref({ hero: content.hero, services, projects: projects.filter((project) => project.featured) });
 
 // Service whose preview is showing in the Services section
 const activeService = ref(0);
@@ -44,7 +46,7 @@ const workflow = [
         </div>
         <p class="mt-6 text-muted">
           Hiring for a role?
-          <NuxtLink to="/about" class="link">See my experience<template v-if="site.hasResume"> and résumé</template></NuxtLink>
+          <NuxtLink to="/about" class="link">See my experience<template v-if="site.resumeUrl"> and résumé</template></NuxtLink>
         </p>
 
       </div>
@@ -127,15 +129,6 @@ const workflow = [
       </div>
       <ProcessCircle :steps="workflow" />
       </div>
-    </section>
-
-    <section v-if="home.posts.length" class="shell mt-28">
-      <SectionHeading title="Articles." sub="Notes from the work.">
-        <NuxtLink to="/blog" class="link">All posts</NuxtLink>
-      </SectionHeading>
-      <ul class="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-        <li v-for="post in home.posts" :key="post.slug"><PostCard :post="post" /></li>
-      </ul>
     </section>
 
     <ContactBand />

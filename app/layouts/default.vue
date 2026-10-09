@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const site = await useSite();
+const site = useSite();
 const { public: { siteUrl } } = useRuntimeConfig();
 
 useHead({

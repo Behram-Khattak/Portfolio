@@ -1,8 +1,10 @@
 <script setup lang="ts">
-const site = await useSite();
-const { data } = await useFetch("/api/about");
-if (!data.value) throw createError({ statusCode: 500, statusMessage: "About page could not be loaded" });
-const about = data as Ref<NonNullable<typeof data.value>>;
+import { experience } from "~/data/experience";
+import { site as content } from "~/data/site";
+import { skills } from "~/data/skills";
+
+const site = useSite();
+const about = ref({ ...content.about, experiences: experience, skills });
 
 useSeoMeta({ title: "About", description: `${site.value.site.name}, ${site.value.site.role}. Experience, skills and résumé.` });
 </script>
@@ -12,10 +14,11 @@ useSeoMeta({ title: "About", description: `${site.value.site.name}, ${site.value
     <div class="shell grid gap-10 pt-16 md:grid-cols-[1.5fr_1fr] md:items-start md:pt-24">
       <div>
         <h1 class="max-w-[16ch] text-4xl font-normal md:text-6xl">{{ about.heading }}</h1>
-        <!-- eslint-disable-next-line vue/no-v-html -- rendered server-side with raw HTML disabled -->
-        <div class="prose mt-8" v-html="about.bodyHtml" />
+        <div class="prose mt-8">
+          <p v-for="paragraph in about.paragraphs" :key="paragraph">{{ paragraph }}</p>
+        </div>
         <div class="mt-9 flex flex-wrap gap-3">
-          <a v-if="site.hasResume" href="/resume" class="btn btn-primary"><Icon name="lucide:download" size="16" /> Download résumé</a>
+          <a v-if="site.resumeUrl" :href="site.resumeUrl" download class="btn btn-primary"><Icon name="lucide:download" size="16" /> Download résumé</a>
           <a v-if="site.socials.linkedin" :href="site.socials.linkedin" target="_blank" rel="noopener noreferrer" class="btn btn-ghost">
             <Icon name="simple-icons:linkedin" size="16" /> LinkedIn
           </a>
@@ -42,7 +45,7 @@ useSeoMeta({ title: "About", description: `${site.value.site.name}, ${site.value
         <li v-for="job in about.experiences" :key="job.company + job.timeline" class="lift flex flex-col rounded-2xl border border-line bg-surface p-6 md:p-7">
           <div class="flex items-center justify-between gap-4">
             <div v-if="job.logo" class="inline-flex h-12 items-center rounded-lg bg-white px-3">
-              <img :src="job.logo.thumb" :alt="job.logo.alt" class="max-h-8 w-auto max-w-28 object-contain" loading="lazy" />
+              <img :src="job.logo.url" :alt="job.logo.alt" class="max-h-8 w-auto max-w-28 object-contain" loading="lazy" />
             </div>
             <span v-else class="grid size-12 place-items-center rounded-lg bg-raised text-muted"><Icon name="lucide:briefcase" size="22" /></span>
             <span class="rounded-full border border-line px-3 py-1 text-sm text-muted">{{ job.timeline }}</span>

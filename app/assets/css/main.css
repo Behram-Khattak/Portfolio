@@ -132,13 +132,6 @@
     border-color: var(--accent);
     color: var(--accent);
   }
-  .btn-danger {
-    border-color: var(--line);
-    color: var(--danger);
-  }
-  .btn-danger:hover:not(:disabled) {
-    border-color: var(--danger);
-  }
   .btn-sm {
     padding: 0.45rem 0.95rem;
     font-size: 0.85rem;
@@ -229,33 +222,6 @@
     color: hsl(var(--h) 55% 27%);
   }
 
-  /* Copy button added to code blocks by useCodeCopy() */
-  .code-block {
-    position: relative;
-  }
-  .copy-code {
-    position: absolute;
-    top: 0.55rem;
-    right: 0.55rem;
-    padding: 0.2rem 0.65rem;
-    border: 1px solid var(--line);
-    border-radius: 0.4rem;
-    background: var(--raised);
-    color: var(--muted);
-    font-size: 0.78rem;
-    font-weight: 500;
-    cursor: pointer;
-    transition: color 0.15s, border-color 0.15s;
-  }
-  .copy-code:hover {
-    color: var(--fg);
-    border-color: var(--accent);
-  }
-  .copy-code[data-copied] {
-    color: var(--ok);
-    border-color: var(--ok);
-  }
-
   /* The old site's wavy underline, kept as the link signature */
   .link {
     color: var(--accent);
@@ -270,32 +236,7 @@
     text-decoration-color: currentColor;
   }
 
-  .field {
-    width: 100%;
-    background: var(--surface);
-    border: 1px solid var(--line);
-    border-radius: 0.5rem;
-    padding: 0.6rem 0.8rem;
-    color: var(--fg);
-    font: inherit;
-  }
-  .field::placeholder {
-    color: var(--muted);
-    opacity: 0.7;
-  }
-  .field:focus {
-    outline: 2px solid var(--accent);
-    outline-offset: 0;
-    border-color: transparent;
-  }
-  .label {
-    display: block;
-    font-size: 0.9rem;
-    font-weight: 500;
-    margin-bottom: 0.35rem;
-  }
-
-  /* Rendered markdown (posts, case studies, about) */
+  /* Long-form text (bio, service descriptions, case studies) */
   .prose {
     max-width: 68ch;
     font-size: 1.05rem;

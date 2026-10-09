@@ -1,10 +1,10 @@
 #!/usr/bin/env node
 // Drives the running site in headless Chrome over the DevTools protocol (no dependencies):
-// visits pages, signs in to /admin through the real form, screenshots each page, and reports
-// headings plus any console errors, exceptions or CSP violations. Read-only: creates no content.
+// loads each page directly, then walks the same pages by clicking links (client-side navigation),
+// screenshots each page, and reports headings plus any console errors, exceptions or failed requests.
 //
 // Run it through the wrapper so it gets the right Node version:
-//   site.sh drive [--out DIR] [--base URL] [--no-admin] [--pages /a,/admin/b]
+//   site.sh drive [--out DIR] [--base URL] [--pages /a,/b]
 import { spawn } from "node:child_process";
 import { existsSync, mkdirSync, mkdtempSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
@@ -20,20 +20,10 @@ const option = (name, fallback) => (args.includes(name) ? args[args.indexOf(name
 const base = option("--base", "http://localhost:3000").replace(/\/$/, "");
 const outDir = option("--out", join(tmpdir(), "portfolio-run"));
 const only = option("--pages", "")?.split(",").filter(Boolean);
-const withAdmin = !args.includes("--no-admin");
 const DEBUG_PORT = 9333;
 
-const PUBLIC_PAGES = ["/", "/services", "/projects", "/blog", "/about", "/contact"];
-const ADMIN_PAGES = ["/admin", "/admin/projects", "/admin/posts", "/admin/services", "/admin/media", "/admin/content", "/admin/experiences", "/admin/skills", "/admin/inquiries", "/admin/settings"];
-const publicPages = only?.length ? only.filter((p) => !p.startsWith("/admin")) : PUBLIC_PAGES;
-const adminPages = only?.length ? only.filter((p) => p.startsWith("/admin")) : withAdmin ? ADMIN_PAGES : [];
-
-try {
-  process.loadEnvFile(".env");
-} catch {
-  // no .env; admin login is skipped below
-}
-const { ADMIN_EMAIL, ADMIN_PASSWORD } = process.env;
+const PAGES = ["/", "/services", "/projects", "/about", "/contact"];
+const pages = only?.length ? only : PAGES;
 
 const chromePath = [
   process.env.CHROME_BIN,
@@ -91,6 +81,9 @@ ws.onmessage = (message) => {
   if (data.method === "Runtime.consoleAPICalled" && data.params.type === "error") note(`console.error: ${data.params.args.map((a) => a.value ?? a.description ?? "").join(" ")}`);
   if (data.method === "Runtime.exceptionThrown") note(`exception: ${data.params.exceptionDetails.exception?.description ?? data.params.exceptionDetails.text}`);
   if (data.method === "Log.entryAdded" && data.params.entry.level === "error") note(`${data.params.entry.text} ${data.params.entry.url ?? ""}`);
+  // A static site has no backend: any failed or 4xx/5xx request means something still expects one
+  if (data.method === "Network.responseReceived" && data.params.response.status >= 400) note(`HTTP ${data.params.response.status} ${data.params.response.url}`);
+  if (data.method === "Network.loadingFailed" && !data.params.canceled) note(`request failed: ${data.params.errorText}`);
 };
 const send = (method, params = {}) =>
   new Promise((resolve) => {
@@ -98,7 +91,7 @@ const send = (method, params = {}) =>
     ws.send(JSON.stringify({ id: nextId, method, params }));
   });
 const evaluate = async (expression) => (await send("Runtime.evaluate", { expression, awaitPromise: true, returnByValue: true })).result?.value;
-for (const domain of ["Runtime", "Page", "Log"]) await send(`${domain}.enable`);
+for (const domain of ["Runtime", "Page", "Log", "Network"]) await send(`${domain}.enable`);
 
 // Helpers for extending this script with real interactions
 const go = async (path, waitMs = 2500) => {
@@ -129,30 +122,26 @@ const visit = async (path) => {
   const file = await screenshot(fileName(path));
   results.push({ path, heading, landedOn, file });
   if (!heading) problems.push(`${path}  page has no heading (blank or failed render?)`);
-  if (landedOn !== path) problems.push(`${path}  ended up on ${landedOn}`);
+  if (landedOn.replace(/\/$/, "") !== path.replace(/\/$/, "") && path !== "/") problems.push(`${path}  ended up on ${landedOn}`);
 };
 
-for (const path of publicPages) await visit(path);
+for (const path of pages) await visit(path);
 
-if (adminPages.length) {
-  if (!ADMIN_EMAIL || !ADMIN_PASSWORD) {
-    problems.push("/admin  ADMIN_EMAIL / ADMIN_PASSWORD not found in .env, admin pages skipped");
-  } else {
-    await go("/admin");
-    const guarded = (await evaluate("location.pathname")) === "/admin/login";
-    if (!guarded) problems.push("/admin  was reachable without signing in");
-    await type("#email", ADMIN_EMAIL);
-    await type("#password", ADMIN_PASSWORD);
-    await click('button[type="submit"]');
-    await sleep(3500);
-    if ((await evaluate("location.pathname")) === "/admin/login") {
-      const needsCode = await evaluate("Boolean(document.querySelector('#code'))");
-      const message = await evaluate("document.querySelector('[role=alert]')?.innerText ?? ''");
-      problems.push(`/admin/login  sign-in did not succeed: ${needsCode ? "two-factor authentication is on, so this script cannot sign in" : message || "no error shown"}`);
-    } else {
-      for (const path of adminPages) await visit(path);
-      await evaluate("fetch('/api/auth/logout', { method: 'POST' }).then(() => true)");
-    }
+// Client-side navigation: follow the header links without reloading. Anything that only existed
+// in the pre-rendered HTML (an icon, a piece of data) would show up here as missing.
+if (!only?.length) {
+  await go("/");
+  await evaluate("window.__driveMarker = true");
+  for (const path of ["/services", "/projects", "/about"]) {
+    currentPage = `(client nav) ${path}`;
+    await click(`header nav a[href="${path}"]`);
+    await sleep(1500);
+    const landedOn = await evaluate("location.pathname.replace(/\\/$/, '') || '/'");
+    if (landedOn !== path) problems.push(`${currentPage}  link did not navigate (on ${landedOn})`);
+    if (!(await evaluate("window.__driveMarker === true"))) problems.push(`${currentPage}  caused a full page reload`);
+    const emptyIcons = await evaluate("[...document.querySelectorAll('main .iconify')].filter((el) => el.getBoundingClientRect().width === 0).length");
+    if (emptyIcons) problems.push(`${currentPage}  ${emptyIcons} icon(s) did not render`);
+    await screenshot(`nav-${fileName(path)}`);
   }
 }
 

@@ -20,17 +20,15 @@ case "${1:-}" in
       echo "Something is already listening on port $PORT (/ returns $(status_of "$BASE/")). Reusing it."
       exit 0
     fi
-    [ -f .env ] || { echo "No .env file. Copy .env.example to .env and fill it in (see README)."; exit 1; }
-    required=$(sed -n 's/.*"node": *"\^\([0-9]*\).*/\1/p' package.json | head -1)
     actual=$(node -p 'process.versions.node.split(".")[0]')
-    [ "$actual" -ge "${required:-22}" ] || { echo "Node $(node -v) is too old; need v$(cat .nvmrc). Install it with: nvm install $(cat .nvmrc)"; exit 1; }
-    (exec 3<>/dev/tcp/127.0.0.1/3306) 2>/dev/null || { echo "MySQL is not answering on 127.0.0.1:3306. Start it in DBngin."; exit 1; }
+    [ "$actual" -ge 22 ] || { echo "Node $(node -v) is too old; need v$(cat .nvmrc). Install it with: nvm install $(cat .nvmrc)"; exit 1; }
     [ -d node_modules ] || { echo "Installing dependencies..."; npm install >/dev/null 2>&1 || { echo "npm install failed"; exit 1; }; }
 
-    if [ "$mode" = prod ]; then
-      echo "Building for production..."
-      npm run build >"$LOG" 2>&1 || { echo "Build failed. Last lines of $LOG:"; tail -20 "$LOG"; exit 1; }
-      PORT="$PORT" nohup node --env-file=.env .output/server/index.mjs >>"$LOG" 2>&1 &
+    if [ "$mode" = static ]; then
+      # What GitHub Pages will serve: pre-rendered files behind a plain file server
+      echo "Generating the static site..."
+      npx nuxt generate >"$LOG" 2>&1 || { echo "Generate failed. Last lines of $LOG:"; tail -20 "$LOG"; exit 1; }
+      nohup npx --yes serve .output/public -l "$PORT" >>"$LOG" 2>&1 &
     else
       nohup npx nuxt dev --port "$PORT" >"$LOG" 2>&1 &
     fi
@@ -53,14 +51,14 @@ case "${1:-}" in
   smoke)
     fail=0
     check() { # path expected-status
-      got=$(status_of "$BASE$1")
+      got=$(status_of -L "$BASE$1")
       if [ "$got" = "$2" ]; then echo "ok   $got $1"; else echo "FAIL $got $1 (expected $2)"; fail=1; fi
     }
-    for path in / /services /projects /blog /about /contact /admin/login /robots.txt /sitemap.xml /api/site /api/home; do check "$path" 200; done
-    check /this-page-does-not-exist 404
-    check /api/admin/dashboard 401
-    got=$(status_of -X POST -H 'Content-Type: application/json' -H 'Origin: https://elsewhere.example' -d '{}' "$BASE/api/contact")
-    if [ "$got" = 403 ]; then echo "ok   403 cross-origin POST /api/contact"; else echo "FAIL $got cross-origin POST /api/contact (expected 403)"; fail=1; fi
+    for path in / /services /projects /about /contact /robots.txt /sitemap.xml /favicon.ico; do check "$path" 200; done
+    # Every project in the data file has a page
+    for slug in $(sed -n 's/.*"slug": "\([^"]*\)".*/\1/p' app/data/projects.ts); do check "/projects/$slug" 200; done
+    # Removed on purpose: these must not come back
+    for path in /blog /admin /api/site /this-page-does-not-exist; do check "$path" 404; done
     [ "$fail" = 0 ] && echo "Smoke test passed." || echo "Smoke test FAILED. Server log: $LOG"
     exit "$fail"
     ;;
@@ -72,6 +70,6 @@ case "${1:-}" in
     ;;
 
   *)
-    echo "Usage: $0 start [dev|prod] | stop | status | smoke | drive [--out DIR] [--no-admin] [--pages /a,/b]"; exit 1
+    echo "Usage: $0 start [dev|static] | stop | status | smoke | drive [--out DIR] [--pages /a,/b]"; exit 1
     ;;
 esac
