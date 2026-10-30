@@ -16,12 +16,9 @@ const form = reactive({
   service: typeof route.query.service === "string" ? route.query.service.slice(0, 160) : "",
   budget: "",
   message: "",
-  website: "",
-  startedAt: 0,
   turnstileToken: "",
 });
 const turnstile = ref<{ reset: () => void }>();
-onMounted(() => (form.startedAt = Date.now()));
 
 const errors = ref<Record<string, string>>({});
 const status = ref<"idle" | "sending" | "sent">("idle");
@@ -109,12 +106,6 @@ const channels = computed(() =>
           <label class="label" for="message">Tell me about it</label>
           <textarea id="message" v-model="form.message" rows="7" class="field" :aria-invalid="Boolean(errors.message)" aria-describedby="message-error" placeholder="What are you building, who is it for, and when do you need it?" />
           <p v-if="errors.message" id="message-error" class="mt-1 text-sm text-danger">{{ errors.message }}</p>
-        </div>
-
-        <!-- Honeypot: hidden from people and assistive tech, tempting to bots -->
-        <div class="absolute -left-[9999px]" aria-hidden="true">
-          <label for="website">Website</label>
-          <input id="website" v-model="form.website" tabindex="-1" autocomplete="off" />
         </div>
 
         <TurnstileWidget ref="turnstile" @token="form.turnstileToken = $event" />

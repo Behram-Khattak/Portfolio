@@ -124,9 +124,5 @@ export const contactSchema = z.object({
   service: text(160),
   budget: text(60),
   message: z.string().trim().min(20, "A little more detail helps (20+ characters)").max(5000),
-  // Honeypot: real visitors never see or fill this field
-  website: z.string().max(200),
-  // Client timestamp of when the form was rendered
-  startedAt: z.number(),
   turnstileToken: z.string().min(1, "Please complete the spam check").max(4096),
 });
