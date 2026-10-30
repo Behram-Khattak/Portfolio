@@ -1,7 +1,17 @@
+import hljs from "highlight.js/lib/core";
 import MarkdownIt from "markdown-it";
+import { codeLanguages } from "./code-languages";
 
-// Raw HTML is disabled, so the output is safe to render with v-html.
-const md = new MarkdownIt({ html: false, linkify: true, typographer: true });
+for (const [name, language] of Object.entries(codeLanguages)) hljs.registerLanguage(name, language);
+
+// Raw HTML is disabled, so the output is safe to render with v-html. highlight.js escapes the
+// code it colours, and returning "" leaves markdown-it to escape any other language itself.
+const md = new MarkdownIt({
+  html: false,
+  linkify: true,
+  typographer: true,
+  highlight: (code, language) => (hljs.getLanguage(language) ? hljs.highlight(code, { language, ignoreIllegals: true }).value : ""),
+});
 
 const renderLink =
   md.renderer.rules.link_open ?? ((tokens, idx, options, _env, self) => self.renderToken(tokens, idx, options));
