@@ -1,14 +1,14 @@
-// Loads the content that used to live in app/data into D1 and R2.
+// Loads the original site content from scripts/seed-data into D1 and R2.
 //   node scripts/seed.ts --local    or    node scripts/seed.ts --remote
 // Every insert is INSERT OR IGNORE, so re-running never overwrites edits made in the dashboard.
 import { spawnSync } from "node:child_process";
 import { mkdirSync, statSync, writeFileSync } from "node:fs";
 import { basename, join } from "node:path";
-import { experience } from "../app/data/experience.ts";
-import { projects } from "../app/data/projects.ts";
-import { services } from "../app/data/services.ts";
-import { site } from "../app/data/site.ts";
-import { skills } from "../app/data/skills.ts";
+import { experience } from "./seed-data/experience.ts";
+import { projects } from "./seed-data/projects.ts";
+import { services } from "./seed-data/services.ts";
+import { site } from "./seed-data/site.ts";
+import { skills } from "./seed-data/skills.ts";
 
 const target = process.argv[2];
 if (target !== "--local" && target !== "--remote") {

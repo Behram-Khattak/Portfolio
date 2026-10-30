@@ -1,60 +1,51 @@
-# Behram Khattak — portfolio
+# Portfolio
 
-Static portfolio site built with Nuxt 4 and Tailwind CSS 4, deployed to GitHub Pages at
-[behramkttk.dev](https://behramkttk.dev). There is no backend or database: every page is
-pre-rendered to plain HTML at build time.
+Portfolio site built with Nuxt 4 and Tailwind CSS 4, running on Cloudflare Workers at
+[behramkttk.dev](https://behramkttk.dev). Content is managed from a dashboard at `/admin`.
 
-## Requirements
+## How it works
 
-- Node 22.22.3 or newer (`nvm use` picks up `.nvmrc`)
+- **Public pages** are pre-rendered from a D1 database and served as static assets.
+- **`/admin`** is a client-only dashboard. Cloudflare Access handles sign-in, and the Worker verifies its token on every `/api/admin` request.
+- **Images and the résumé** live in R2 and are served from `media.behramkttk.dev`.
+- **Publish changes** in the dashboard fires a Workers Builds deploy hook. Edits save instantly but reach the public site after the rebuild.
 
-## Running
+## Local development
+
+Requires the Node version in `.nvmrc`.
 
 ```bash
-nvm use
 npm install
-npm run dev          # http://localhost:3000 with hot reload
+cp .env.example .env
+npm run db:migrate:local
+node scripts/seed.ts --local
+npm run dev
 ```
 
-To see exactly what GitHub Pages will serve:
+In dev the dashboard skips sign-in, and uploaded images are stored locally, so they won't load from the media domain.
+
+## Database changes
+
+Edit `server/database/schema.ts`, then:
 
 ```bash
-npm run generate     # writes the site to .output/public
-npm run preview      # serves that folder
+npm run db:generate
+npm run db:migrate:local
+npm run db:migrate:remote
 ```
-
-## Editing content
-
-All content lives in `app/data/`. Edit the file, check it locally, then commit and push.
-
-| File | What it holds |
-|---|---|
-| `site.ts` | Name, job title, contact details, social links, hero headline and text, About bio, résumé link |
-| `services.ts` | The services, in display order |
-| `projects.ts` | The projects, in display order. `featured: true` puts one on the homepage |
-| `experience.ts` | Work history |
-| `skills.ts` | Tech stack on the About page |
-
-- **Images** go in `public/images/` and are referenced as `/images/<name>`.
-- **Résumé**: replace the PDF in `public/` and update `resumeUrl` in `site.ts` if the file name changes.
-- **Icons** are [Iconify](https://icon-sets.iconify.design) names from the `lucide` or `simple-icons` sets, e.g. `lucide:bot`.
-- **A new project** also needs its URL added to `public/sitemap.xml`.
-- **A new service** shows a large version of its icon as its illustration unless a scene is added for its slug in `app/components/ServiceGraphic.vue`.
 
 ## Deploying
 
-Pushing to `main` runs `.github/workflows/static.yml`, which builds the site and publishes
-`.output/public` to GitHub Pages. `public/CNAME` keeps the `behramkttk.dev` domain attached.
+Pushing to the production branch builds and deploys through Workers Builds.
 
-## Layout
+Build variables: `NODE_VERSION`, `D1_ACCOUNT_ID`, `D1_DATABASE_ID`, `D1_API_TOKEN` (read-only) and `NUXT_PUBLIC_TURNSTILE_SITE_KEY`.
 
-- `app/pages/` — one file per page
-- `app/components/` — header, footer, illustrations and other shared pieces
-- `app/assets/css/main.css` — colours, type and shared styles
-- `app/data/` — content
-- `public/` — files served as-is (images, résumé, favicon, `robots.txt`, `sitemap.xml`, `CNAME`)
+Worker secrets: `NUXT_TURNSTILE_SECRET_KEY`, `NUXT_DEPLOY_HOOK_URL`, `NUXT_ACCESS_TEAM_DOMAIN` and `NUXT_ACCESS_AUD`.
 
-## Full-stack version
+## Project layout
 
-An earlier version with a MySQL database, admin dashboard, blog and contact form is preserved on
-the `nuxt-fullstack` branch.
+- `app/` — pages, components and the dashboard UI
+- `server/api/` — public read routes, the contact form and `/api/admin`
+- `server/database/` — D1 schema and migrations
+- `shared/utils/` — validation schemas and the markdown renderer
+- `scripts/` — the seed script and the original content it loads

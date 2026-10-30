@@ -25,10 +25,11 @@ case "${1:-}" in
     [ -d node_modules ] || { echo "Installing dependencies..."; npm install >/dev/null 2>&1 || { echo "npm install failed"; exit 1; }; }
 
     if [ "$mode" = static ]; then
-      # What GitHub Pages will serve: pre-rendered files behind a plain file server
-      echo "Generating the static site..."
-      npx nuxt generate >"$LOG" 2>&1 || { echo "Generate failed. Last lines of $LOG:"; tail -20 "$LOG"; exit 1; }
-      nohup npx --yes serve .output/public -l "$PORT" >>"$LOG" 2>&1 &
+      # What Cloudflare will serve: the pre-rendered pages and the Worker. Pre-rendering reads
+      # the real D1 database, so this needs D1_ACCOUNT_ID, D1_DATABASE_ID and D1_API_TOKEN in .env.
+      echo "Building the site..."
+      npx nuxt build >"$LOG" 2>&1 || { echo "Build failed. Last lines of $LOG:"; tail -20 "$LOG"; exit 1; }
+      nohup npx wrangler --cwd .output dev --port "$PORT" --persist-to ../.wrangler/state >>"$LOG" 2>&1 &
     else
       nohup npx nuxt dev --port "$PORT" >"$LOG" 2>&1 &
     fi
@@ -54,11 +55,10 @@ case "${1:-}" in
       got=$(status_of -L "$BASE$1")
       if [ "$got" = "$2" ]; then echo "ok   $got $1"; else echo "FAIL $got $1 (expected $2)"; fail=1; fi
     }
-    for path in / /services /projects /about /contact /robots.txt /sitemap.xml /favicon.ico; do check "$path" 200; done
-    # Every project in the data file has a page
-    for slug in $(sed -n 's/.*"slug": "\([^"]*\)".*/\1/p' app/data/projects.ts); do check "/projects/$slug" 200; done
-    # Removed on purpose: these must not come back
-    for path in /blog /admin /api/site /this-page-does-not-exist; do check "$path" 404; done
+    for path in / /services /projects /blog /about /contact /admin /robots.txt /sitemap.xml /favicon.ico /api/site; do check "$path" 200; done
+    # Every published project has a page
+    for slug in $(curl -s "$BASE/api/projects" | sed -n 's/.*"slug": *"\([^"]*\)".*/\1/p'); do check "/projects/$slug" 200; done
+    for path in /projects/this-does-not-exist /this-page-does-not-exist; do check "$path" 404; done
     [ "$fail" = 0 ] && echo "Smoke test passed." || echo "Smoke test FAILED. Server log: $LOG"
     exit "$fail"
     ;;

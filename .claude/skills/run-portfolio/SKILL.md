@@ -1,12 +1,13 @@
 ---
 name: run-portfolio
-description: Launch, smoke-test and drive this static Nuxt portfolio site in a real browser, with screenshots. Use this whenever asked to run, start, preview, screenshot or demo the site, to check that a change works in the actual app, or to verify anything under app/ or public/ end to end, even if the request only says "does it work?" or "show me". It encodes the Node version and the static-build checks that otherwise cost several failed attempts.
+description: Launch, smoke-test and drive this Nuxt portfolio site in a real browser, with screenshots. Use this whenever asked to run, start, preview, screenshot or demo the site, to check that a change works in the actual app, or to verify anything under app/ or public/ end to end, even if the request only says "does it work?" or "show me". It encodes the Node version and the static-build checks that otherwise cost several failed attempts.
 ---
 
 # Run and verify the portfolio site
 
-The site is a static Nuxt 4 build for GitHub Pages: no backend, no database. Content lives in
-`app/data/*.ts`. Running it means serving the pages and looking at what a visitor would see, not
+The site is a Nuxt 4 app on Cloudflare Workers. Public pages are pre-rendered from a D1 database
+and served as static assets; `/admin` and `/api/*` run in the Worker. Run `npm run db:migrate:local`
+and `node scripts/seed.ts --local` once to fill the local database that `dev` mode uses. Running it means serving the pages and looking at what a visitor would see, not
 just type-checking.
 
 All commands run from the repository root. `SK=.claude/skills/run-portfolio/scripts`.
@@ -15,10 +16,10 @@ All commands run from the repository root. `SK=.claude/skills/run-portfolio/scri
 
 ```bash
 $SK/site.sh start          # dev server (hot reload), the default
-$SK/site.sh start static   # nuxt generate, then a plain file server over .output/public
+$SK/site.sh start static   # nuxt build, then wrangler dev over .output (needs D1_* in .env)
 ```
 
-Use `static` before saying something is ready to deploy. It is what GitHub Pages serves, and it is
+Use `static` before saying something is ready to deploy. It is what Cloudflare serves, and it is
 the only mode that shows problems caused by there being no server at runtime.
 
 The script handles the things that fail silently otherwise:
@@ -39,8 +40,8 @@ It waits until `/` returns 200, then prints the log path. `$SK/site.sh status` a
 $SK/site.sh smoke
 ```
 
-Checks every page, one page per project in `app/data/projects.ts`, the static files, and that the
-removed routes (`/blog`, `/admin`, `/api/*`) return 404.
+Checks every page, one page per project from `/api/projects`, the static files, the dashboard shell, and that
+unknown routes return 404.
 
 ## 3. Drive it in a browser
 
@@ -85,7 +86,7 @@ how to stop it.
   The driver's client-navigation pass exists to catch this; run it in `static` mode.
 - **`text-base` is a colour here.** The palette has a `base` token, so the Tailwind class
   `text-base` paints text in the page background colour. Use `text-[1rem]` for the font size.
-- **A new project needs its sitemap entry.** `public/sitemap.xml` is a plain file.
+- **New content needs a rebuild.** Public pages and `/sitemap.xml` are pre-rendered, so edits appear after **Publish changes**.
 - **Mobile screenshots.** Headless Chrome's `--window-size` will not go narrower than 500px. For a
   true phone width, set device metrics over the DevTools protocol instead.
 - **The driver uses fixed waits.** Right after a large change the dev server may still be

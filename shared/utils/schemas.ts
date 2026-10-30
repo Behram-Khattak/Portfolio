@@ -128,4 +128,5 @@ export const contactSchema = z.object({
   website: z.string().max(200),
   // Client timestamp of when the form was rendered
   startedAt: z.number(),
+  turnstileToken: z.string().min(1, "Please complete the spam check").max(4096),
 });
