@@ -75,6 +75,10 @@ how to stop it.
 
 ## Things that will trip you up
 
+- **Never run `nuxt generate` or `nuxt build` while the dev server is running.** They rewrite the
+  shared `.nuxt` folder underneath it, and every page then fails with `useSite is not defined`
+  (auto-imports gone) and a 500. Stop the dev server first, or use `site.sh start static`, which
+  refuses to start while the port is busy. To recover: `site.sh stop`, delete `.nuxt`, start again.
 - **Icons must be in the bundle.** There is no icon server at runtime. `nuxt.config.ts` scans
   `app/**/*.{vue,ts}` for icon names, so an icon named anywhere else (or built from a string at
   runtime) will be blank after client-side navigation, though it looks fine on a direct page load.
