@@ -58,8 +58,11 @@ export default defineNuxtConfig({
 
   runtimeConfig: {
     turnstileSecretKey: "",
-    accessTeamDomain: "",
-    accessAud: "",
+    githubClientId: "",
+    githubClientSecret: "",
+    sessionSecret: "",
+    // Public GitHub user id of the only account allowed into the dashboard
+    adminGithubId: "81041662",
     deployHookUrl: "",
     public: { siteUrl: "https://behramkttk.dev", mediaUrl: "https://media.behramkttk.dev", turnstileSiteKey: "" },
   },

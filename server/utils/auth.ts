@@ -1,26 +1,44 @@
-import { createRemoteJWKSet, jwtVerify } from "jose";
+import { jwtVerify, SignJWT } from "jose";
 import type { H3Event } from "h3";
 
-let jwks: ReturnType<typeof createRemoteJWKSet> | undefined;
+const SESSION_COOKIE = "__Host-admin_session";
+const SESSION_HOURS = 8;
 
-// Cloudflare Access signs in the admin before a request reaches the Worker. Its token is still
-// verified here, so a request that arrives any other way (workers.dev, say) gets nowhere.
+function sessionKey(event: H3Event) {
+  const { sessionSecret } = useRuntimeConfig(event);
+  if (sessionSecret.length < 32) throw createError({ statusCode: 503, statusMessage: "Sign-in is not configured" });
+  return new TextEncoder().encode(sessionSecret);
+}
+
+export async function startSession(event: H3Event, user: { id: number; login: string }) {
+  const token = await new SignJWT({ login: user.login })
+    .setProtectedHeader({ alg: "HS256" })
+    .setSubject(String(user.id))
+    .setIssuedAt()
+    .setExpirationTime(`${SESSION_HOURS}h`)
+    .sign(sessionKey(event));
+  setCookie(event, SESSION_COOKIE, token, { httpOnly: true, secure: true, sameSite: "lax", path: "/", maxAge: SESSION_HOURS * 3600 });
+}
+
+export function endSession(event: H3Event) {
+  deleteCookie(event, SESSION_COOKIE, { httpOnly: true, secure: true, sameSite: "lax", path: "/" });
+}
+
+// The session cookie is signed by the Worker, and only the one allowed GitHub account can get one.
 export async function requireAdmin(event: H3Event) {
-  if (import.meta.dev) return { email: "dev@localhost" };
+  if (import.meta.dev) return { login: "dev" };
 
-  const { accessTeamDomain, accessAud } = useRuntimeConfig(event);
-  if (!accessTeamDomain || !accessAud) throw createError({ statusCode: 503, statusMessage: "Sign-in is not configured" });
+  const key = sessionKey(event);
+  const unauthorized = createError({ statusCode: 401, statusMessage: "Your session expired. Open the dashboard in a new tab to sign in, then try again." });
+  const token = getCookie(event, SESSION_COOKIE);
+  if (!token) throw unauthorized;
 
-  const token = getHeader(event, "cf-access-jwt-assertion");
-  if (!token) throw createError({ statusCode: 401, statusMessage: "Unauthorized" });
-
-  const issuer = accessTeamDomain.replace(/\/$/, "");
-  jwks ??= createRemoteJWKSet(new URL(`${issuer}/cdn-cgi/access/certs`));
   try {
-    const { payload } = await jwtVerify(token, jwks, { issuer, audience: accessAud, algorithms: ["RS256"] });
-    return { email: String(payload.email ?? "") };
+    const { payload } = await jwtVerify(token, key, { algorithms: ["HS256"] });
+    if (payload.sub !== String(useRuntimeConfig(event).adminGithubId)) throw unauthorized;
+    return { login: String(payload.login ?? "") };
   } catch {
-    throw createError({ statusCode: 401, statusMessage: "Unauthorized" });
+    throw unauthorized;
   }
 }
 
@@ -28,7 +46,7 @@ export async function audit(event: H3Event, entry: { action: string; entity?: st
   await useDb()
     .insert(schema.auditLogs)
     .values({
-      actor: event.context.admin?.email ?? "",
+      actor: event.context.admin?.login ?? "",
       action: entry.action,
       entity: entry.entity ?? "",
       entityId: String(entry.entityId ?? ""),

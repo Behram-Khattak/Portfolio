@@ -134,7 +134,7 @@ export const auditLogs = sqliteTable(
   "audit_logs",
   {
     id: id(),
-    // Email from the Cloudflare Access token
+    // GitHub username of the admin
     actor: text("actor").notNull().default(""),
     action: text("action").notNull(),
     entity: text("entity").notNull().default(""),

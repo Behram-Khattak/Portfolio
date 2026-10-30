@@ -12,7 +12,7 @@ const tiles = computed(() => [
   { label: "Unread inquiries", value: data.value?.counts.unread ?? 0, to: "/admin/inquiries" },
 ]);
 const actionLabels: Record<string, string> = {
-  create: "Created", update: "Updated", delete: "Deleted", upload: "Uploaded", publish: "Published",
+  create: "Created", update: "Updated", delete: "Deleted", upload: "Uploaded", publish: "Published", login: "Signed in",
 };
 </script>
 

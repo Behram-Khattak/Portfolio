@@ -24,11 +24,16 @@ const isActive = (item: (typeof nav)[number]) => (item.exact ? route.path === it
 
 // Edits are saved at once, but the public site only changes when it is rebuilt
 const hasUnpublished = computed(() => {
-  const latest = dashboard.value?.activity.find((entry) => entry.entity !== "inquiries");
+  const latest = dashboard.value?.activity.find((entry) => !["inquiries", "session"].includes(entry.entity));
   return Boolean(latest) && latest?.action !== "publish";
 });
 const publishing = ref(false);
 const publishMessage = ref("");
+
+async function signOut() {
+  await $fetch("/api/auth/logout", { method: "POST" });
+  window.location.href = "/";
+}
 
 async function publish() {
   publishMessage.value = "";
@@ -78,13 +83,13 @@ async function publish() {
           </button>
           <p v-if="publishMessage" class="px-3 py-1 text-sm text-muted" role="status">{{ publishMessage }}</p>
           <p v-else-if="hasUnpublished" class="px-3 py-1 text-sm text-muted">You have changes that aren't live yet.</p>
-          <p class="truncate px-3 pt-2 text-sm text-muted">{{ dashboard?.email }}</p>
+          <p class="truncate px-3 pt-2 text-sm text-muted">{{ dashboard?.login }}</p>
           <a href="/" target="_blank" class="flex items-center gap-3 rounded-lg px-3 py-2 text-[0.95rem] text-muted hover:text-fg">
             <Icon name="lucide:external-link" size="18" /> View site
           </a>
-          <a href="/cdn-cgi/access/logout" class="flex items-center gap-3 rounded-lg px-3 py-2 text-[0.95rem] text-muted hover:text-fg">
+          <button type="button" class="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-[0.95rem] text-muted hover:text-fg" @click="signOut">
             <Icon name="lucide:log-out" size="18" /> Sign out
-          </a>
+          </button>
         </div>
       </div>
     </aside>

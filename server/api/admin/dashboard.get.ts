@@ -18,7 +18,7 @@ export default defineEventHandler(async (event) => {
   ]);
 
   return {
-    email: String(event.context.admin?.email ?? ""),
+    login: String(event.context.admin?.login ?? ""),
     counts: { projects: projectCount, posts: postCount, services: serviceCount, media: mediaCount, unread },
     recentInquiries,
     activity,

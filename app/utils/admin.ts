@@ -176,7 +176,12 @@ export const settingsForms: Record<keyof typeof settingsSchemas, { title: string
   },
 };
 
-export const adminFetch = $fetch;
+// A signed-out page load goes to GitHub. A failed save stays put, so unsaved work isn't lost.
+export const adminFetch = $fetch.create({
+  onResponseError({ response, options }) {
+    if (response.status === 401 && import.meta.client && (options.method ?? "GET") === "GET") window.location.href = "/auth/github";
+  },
+});
 
 export function errorMessage(error: unknown, fallback = "Something went wrong. Try again.") {
   const e = error as { data?: { statusMessage?: string }; statusMessage?: string };

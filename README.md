@@ -6,7 +6,7 @@ Portfolio site built with Nuxt 4 and Tailwind CSS 4, running on Cloudflare Worke
 ## How it works
 
 - **Public pages** are pre-rendered from a D1 database and served as static assets.
-- **`/admin`** is a client-only dashboard. Cloudflare Access handles sign-in, and the Worker verifies its token on every `/api/admin` request.
+- **`/admin`** is a client-only dashboard. Sign-in is through GitHub, limited to one account, and the Worker checks a signed session cookie on every `/api/admin` request.
 - **Images and the résumé** live in R2 and are served from `media.behramkttk.dev`.
 - **Publish changes** in the dashboard fires a Workers Builds deploy hook. Edits save instantly but reach the public site after the rebuild.
 
@@ -40,7 +40,7 @@ Pushing to the production branch builds and deploys through Workers Builds.
 
 Build variables: `NODE_VERSION`, `D1_ACCOUNT_ID`, `D1_DATABASE_ID`, `D1_API_TOKEN` (read-only) and `NUXT_PUBLIC_TURNSTILE_SITE_KEY`.
 
-Worker secrets: `NUXT_TURNSTILE_SECRET_KEY`, `NUXT_DEPLOY_HOOK_URL`, `NUXT_ACCESS_TEAM_DOMAIN` and `NUXT_ACCESS_AUD`.
+Worker secrets: `NUXT_TURNSTILE_SECRET_KEY`, `NUXT_DEPLOY_HOOK_URL`, `NUXT_GITHUB_CLIENT_ID`, `NUXT_GITHUB_CLIENT_SECRET` and `NUXT_SESSION_SECRET`.
 
 ## Project layout
 
