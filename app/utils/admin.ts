@@ -183,6 +183,29 @@ export const adminFetch = $fetch.create({
   },
 });
 
+export const adminNav: { title?: string; items: { to: string; label: string; icon: string; exact?: boolean }[] }[] = [
+  { items: [{ to: "/admin", label: "Overview", icon: "lucide:house", exact: true }] },
+  {
+    title: "Content",
+    items: [
+      { to: "/admin/projects", label: "Projects", icon: "lucide:folder-kanban" },
+      { to: "/admin/posts", label: "Blog posts", icon: "lucide:pen-line" },
+      { to: "/admin/services", label: "Services", icon: "lucide:layers" },
+      { to: "/admin/media", label: "Images", icon: "lucide:image" },
+    ],
+  },
+  {
+    title: "Pages",
+    items: [
+      { to: "/admin/content", label: "Page content", icon: "lucide:file-text" },
+      { to: "/admin/experiences", label: "Experience", icon: "lucide:briefcase" },
+      { to: "/admin/skills", label: "Skills", icon: "lucide:wrench" },
+    ],
+  },
+  { title: "Inbox", items: [{ to: "/admin/inquiries", label: "Inquiries", icon: "lucide:inbox" }] },
+  { title: "Site", items: [{ to: "/admin/settings", label: "Settings", icon: "lucide:settings" }] },
+];
+
 export function errorMessage(error: unknown, fallback = "Something went wrong. Try again.") {
   const e = error as { data?: { statusMessage?: string }; statusMessage?: string };
   return e?.data?.statusMessage || e?.statusMessage || fallback;

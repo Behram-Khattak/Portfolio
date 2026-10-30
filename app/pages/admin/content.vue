@@ -7,7 +7,7 @@ const { data: settings } = await useAsyncData("admin-settings", () => adminFetch
 
 <template>
   <div class="max-w-4xl">
-    <h1 class="text-3xl font-semibold">Page content</h1>
+    <h1 class="admin-title">Page content</h1>
     <p class="mt-2 text-muted">
       Text for the homepage and About page. Job history and skills have their own lists:
       <NuxtLink to="/admin/experiences" class="link">Experience</NuxtLink>, <NuxtLink to="/admin/skills" class="link">Skills</NuxtLink>.

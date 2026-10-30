@@ -48,8 +48,7 @@ async function save() {
 
 <template>
   <form class="max-w-4xl" novalidate @submit.prevent="save">
-    <NuxtLink :to="`/admin/${name}`" class="text-muted hover:text-fg">{{ config.title }}</NuxtLink>
-    <h1 class="mt-1 text-3xl font-semibold">{{ isNew ? `New ${config.singular}` : form[config.labelKey] || `Edit ${config.singular}` }}</h1>
+    <h1 class="admin-title">{{ isNew ? `New ${config.singular}` : form[config.labelKey] || `Edit ${config.singular}` }}</h1>
 
     <div class="mt-8">
       <AdminForm v-model="form" :fields="config.fields" :errors="errors" :auto-slug="isNew" />

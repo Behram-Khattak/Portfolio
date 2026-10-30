@@ -60,7 +60,7 @@ async function upload(event: Event) {
 
     <dialog ref="dialog" class="m-auto w-[min(56rem,92vw)] rounded-xl border border-line bg-base p-0 text-fg backdrop:bg-black/60">
       <div class="flex items-center justify-between gap-4 border-b border-line p-4">
-        <h2 class="text-xl font-semibold">Choose {{ multiple ? "images" : "an image" }}</h2>
+        <h2 class="admin-section">Choose {{ multiple ? "images" : "an image" }}</h2>
         <div class="flex items-center gap-2">
           <label class="btn btn-primary btn-sm">
             <Icon name="lucide:upload" size="16" /> {{ uploading ? "Uploading…" : "Upload new" }}

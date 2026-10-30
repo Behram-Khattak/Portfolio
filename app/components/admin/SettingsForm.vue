@@ -26,13 +26,13 @@ async function save() {
 </script>
 
 <template>
-  <form class="rounded-xl border border-line bg-surface/50 p-6" novalidate @submit.prevent="save" @input="state = 'idle'">
-    <h2 class="text-xl font-semibold">{{ config.title }}</h2>
+  <form class="admin-card p-5" novalidate @submit.prevent="save" @input="state = 'idle'">
+    <h2 class="admin-section">{{ config.title }}</h2>
     <div class="mt-5">
       <AdminForm v-model="form" :fields="config.fields" :errors="errors" />
     </div>
     <div class="mt-6 flex items-center gap-4">
-      <button type="submit" class="btn btn-primary" :disabled="state === 'saving'">{{ state === "saving" ? "Saving…" : "Save changes" }}</button>
+      <button type="submit" class="btn btn-ghost" :disabled="state === 'saving'">{{ state === "saving" ? "Saving…" : "Save changes" }}</button>
       <p v-if="state === 'saved'" class="text-ok" role="status">Saved</p>
       <p v-if="failure" class="text-danger" role="alert">{{ failure }}</p>
     </div>

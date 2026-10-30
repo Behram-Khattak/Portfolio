@@ -47,7 +47,7 @@ async function remove(item: { id: number; originalName: string }) {
 <template>
   <div>
     <div class="flex flex-wrap items-center justify-between gap-4">
-      <h1 class="text-3xl font-semibold">Images</h1>
+      <h1 class="admin-title">Images</h1>
       <label class="btn btn-primary">
         <Icon name="lucide:upload" size="16" /> {{ uploading ? "Uploading…" : "Upload images" }}
         <input type="file" multiple accept="image/jpeg,image/png,image/webp,image/avif" class="sr-only" :disabled="uploading" @change="upload" />
@@ -58,7 +58,7 @@ async function remove(item: { id: number; originalName: string }) {
 
     <p v-if="!items?.length" class="mt-10 text-muted">No images yet. Upload screenshots, logos and photos to use across the site.</p>
     <ul v-else class="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-      <li v-for="item in items" :key="item.id" class="rounded-xl border border-line bg-surface p-3">
+      <li v-for="item in items" :key="item.id" class="admin-card p-3">
         <a :href="item.url" target="_blank"><img :src="item.thumb" :alt="item.alt" class="aspect-video w-full rounded-lg bg-raised object-contain" loading="lazy" /></a>
         <p class="mt-3 truncate text-sm" :title="item.originalName">{{ item.originalName }}</p>
         <p class="text-sm text-muted">{{ item.width }} × {{ item.height }}, {{ Math.round(item.size / 1024) }} KB</p>

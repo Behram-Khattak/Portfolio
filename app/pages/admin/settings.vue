@@ -34,15 +34,15 @@ async function removeResume() {
 
 <template>
   <div class="max-w-4xl">
-    <h1 class="text-3xl font-semibold">Settings</h1>
+    <h1 class="admin-title">Settings</h1>
 
     <div v-if="settings" class="mt-8 space-y-8">
       <AdminSettingsForm settings-key="site" :initial="settings.site" />
       <AdminSettingsForm settings-key="contact" :initial="settings.contact" />
       <AdminSettingsForm settings-key="socials" :initial="settings.socials" />
 
-      <section class="rounded-xl border border-line bg-surface/50 p-6">
-        <h2 class="text-xl font-semibold">Résumé</h2>
+      <section class="admin-card p-5">
+        <h2 class="admin-section">Résumé</h2>
         <p class="mt-2 text-muted">
           <template v-if="settings.resume">Current file: <a :href="settings.resume.url" target="_blank" class="link">{{ settings.resume.name }}</a></template>
           <template v-else>No résumé uploaded. Add a PDF and a download button appears on the About page and homepage.</template>

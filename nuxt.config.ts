@@ -39,6 +39,7 @@ export default defineNuxtConfig({
       { name: "Bricolage Grotesque", provider: "google", weights: [400, 500, 600] },
       { name: "IBM Plex Sans", provider: "google", weights: [400, 500, 600] },
       { name: "IBM Plex Mono", provider: "google", weights: [400, 500] },
+      { name: "Inter", provider: "google", weights: [400, 500] },
     ],
   },
 

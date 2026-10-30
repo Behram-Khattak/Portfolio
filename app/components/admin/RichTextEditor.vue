@@ -56,8 +56,8 @@ const codeLanguage = computed({
 </script>
 
 <template>
-  <div class="rich-editor overflow-hidden rounded-lg border border-line bg-surface focus-within:border-accent">
-    <div v-if="editor" class="sticky top-0 z-10 flex flex-wrap items-center gap-1 border-b border-line bg-surface p-1.5" role="toolbar" aria-label="Formatting">
+  <div class="rich-editor rounded-lg border border-line bg-surface focus-within:border-accent">
+    <div v-if="editor" class="sticky top-14 z-10 flex flex-wrap items-center gap-1 rounded-t-lg border-b border-line bg-surface p-1.5" role="toolbar" aria-label="Formatting">
       <button
         v-for="tool in tools"
         :key="tool.label"
