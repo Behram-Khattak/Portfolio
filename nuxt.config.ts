@@ -35,7 +35,7 @@ export default defineNuxtConfig({
   },
 
   runtimeConfig: {
-    public: { siteUrl: "https://behramkttk.dev" },
+    public: { siteUrl: "https://behramkttk.dev", mediaUrl: "https://media.behramkttk.dev" },
   },
 
   routeRules: {
@@ -47,7 +47,10 @@ export default defineNuxtConfig({
   nitro: {
     preset: "cloudflare_module",
     cloudflare: { deployConfig: true, nodeCompat: true },
-    prerender: { crawlLinks: true, routes: ["/"] },
+    // Lets useDb() reach the D1 binding without passing the event around
+    experimental: { asyncContext: true },
+    // Emit /services.html rather than /services/index.html, so /services doesn't redirect
+    prerender: { crawlLinks: true, routes: ["/"], autoSubfolderIndex: false, failOnError: true },
   },
 
   typescript: { strict: true },

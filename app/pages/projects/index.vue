@@ -1,12 +1,9 @@
 <script setup lang="ts">
-import { projects as allProjects } from "~/data/projects";
-import { services } from "~/data/services";
-
 useSeoMeta({ title: "Projects", description: "Websites, web applications and products I have built." });
 
-const projects = ref(allProjects);
-// Only services that actually have projects are offered as filters
-const serviceFilters = computed(() => services.filter((service) => projects.value.some((project) => project.service === service.slug)));
+const { data } = await useFetch("/api/projects");
+const projects = computed(() => data.value!.projects);
+const serviceFilters = computed(() => data.value!.services);
 const techFilters = computed(() => [...new Set(projects.value.flatMap((project) => project.tech))].sort());
 
 const activeService = ref<string | null>(null);

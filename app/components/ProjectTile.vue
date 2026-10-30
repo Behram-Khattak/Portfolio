@@ -1,7 +1,5 @@
 <script setup lang="ts">
-import type { Project } from "~/data/projects";
-
-defineProps<{ project: Project }>();
+defineProps<{ project: ProjectCard }>();
 </script>
 
 <template>

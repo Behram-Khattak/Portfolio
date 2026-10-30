@@ -1,7 +1,5 @@
 <script setup lang="ts">
-import { services as allServices } from "~/data/services";
-
-const services = ref(allServices);
+const { data: services } = await useFetch("/api/services");
 useSeoMeta({
   title: "Services",
   description: "Website development, custom web applications, mobile apps and AI integration.",

@@ -1,12 +1,8 @@
 <script setup lang="ts">
-import { projects } from "~/data/projects";
-import { services } from "~/data/services";
-
 const route = useRoute();
-const found = projects.find((entry) => entry.slug === route.params.slug);
-if (!found) throw createError({ statusCode: 404, statusMessage: "Project not found", fatal: true });
-const linked = services.find((entry) => entry.slug === found.service);
-const project = ref({ ...found, service: linked ? { slug: linked.slug, title: linked.title } : null });
+const { data, error } = await useFetch(`/api/projects/${route.params.slug}`);
+if (error.value) throw createError({ statusCode: error.value.statusCode ?? 500, statusMessage: error.value.statusMessage, fatal: true });
+const project = computed(() => data.value!);
 
 useSeoMeta({
   title: project.value.title,
@@ -47,10 +43,8 @@ const facts = computed(() =>
       />
 
       <div class="mt-12 grid gap-12 md:grid-cols-[1.5fr_1fr]">
-        <div v-if="project.body.length" class="prose">
-          <p v-for="paragraph in project.body" :key="paragraph">{{ paragraph }}</p>
-        </div>
-        <dl v-if="facts.length || project.tech.length || project.service" class="h-fit space-y-4 rounded-xl border border-line bg-surface p-6" :class="{ 'md:col-start-1': !project.body.length }">
+        <div v-if="project.bodyHtml" class="prose" v-html="project.bodyHtml" />
+        <dl v-if="facts.length || project.tech.length || project.service" class="h-fit space-y-4 rounded-xl border border-line bg-surface p-6" :class="{ 'md:col-start-1': !project.bodyHtml }">
           <div v-for="fact in facts" :key="fact.label">
             <dt class="text-sm text-muted">{{ fact.label }}</dt>
             <dd class="text-lg">{{ fact.value }}</dd>

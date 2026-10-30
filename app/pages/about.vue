@@ -1,10 +1,7 @@
 <script setup lang="ts">
-import { experience } from "~/data/experience";
-import { site as content } from "~/data/site";
-import { skills } from "~/data/skills";
-
 const site = useSite();
-const about = ref({ ...content.about, experiences: experience, skills });
+const { data } = await useFetch("/api/about");
+const about = computed(() => data.value!);
 
 useSeoMeta({ title: "About", description: `${site.value.site.name}, ${site.value.site.role}. Experience, skills and résumé.` });
 </script>
@@ -14,9 +11,7 @@ useSeoMeta({ title: "About", description: `${site.value.site.name}, ${site.value
     <div class="shell grid gap-10 pt-16 md:grid-cols-[1.5fr_1fr] md:items-start md:pt-24">
       <div>
         <h1 class="max-w-[16ch] text-4xl font-normal md:text-6xl">{{ about.heading }}</h1>
-        <div class="prose mt-8">
-          <p v-for="paragraph in about.paragraphs" :key="paragraph">{{ paragraph }}</p>
-        </div>
+        <div class="prose mt-8" v-html="about.bodyHtml" />
         <div class="mt-9 flex flex-wrap gap-3">
           <a v-if="site.resumeUrl" :href="site.resumeUrl" download class="btn btn-primary"><Icon name="lucide:download" size="16" /> Download résumé</a>
           <a v-if="site.socials.linkedin" :href="site.socials.linkedin" target="_blank" rel="noopener noreferrer" class="btn btn-ghost">

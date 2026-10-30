@@ -1,10 +1,7 @@
 <script setup lang="ts">
-import { projects } from "~/data/projects";
-import { services } from "~/data/services";
-import { site as content } from "~/data/site";
-
 const site = useSite();
-const home = ref({ hero: content.hero, services, projects: projects.filter((project) => project.featured) });
+const { data } = await useFetch("/api/home");
+const home = computed(() => data.value!);
 
 // Service whose preview is showing in the Services section
 const activeService = ref(0);
