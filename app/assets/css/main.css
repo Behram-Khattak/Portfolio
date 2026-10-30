@@ -326,6 +326,51 @@
     background: none;
     padding: 0;
   }
+  /* Code colours, chosen to stay readable on the light code background */
+  .prose .hljs-comment,
+  .prose .hljs-quote {
+    color: var(--muted);
+    font-style: italic;
+  }
+  .prose .hljs-keyword,
+  .prose .hljs-selector-tag,
+  .prose .hljs-built_in,
+  .prose .hljs-doctag {
+    color: #a0241c;
+  }
+  .prose .hljs-string,
+  .prose .hljs-regexp,
+  .prose .hljs-addition {
+    color: #1c6f46;
+  }
+  .prose .hljs-number,
+  .prose .hljs-literal,
+  .prose .hljs-attr,
+  .prose .hljs-attribute,
+  .prose .hljs-variable,
+  .prose .hljs-template-variable {
+    color: #8a5d0f;
+  }
+  .prose .hljs-title,
+  .prose .hljs-section,
+  .prose .hljs-name,
+  .prose .hljs-selector-class,
+  .prose .hljs-selector-id,
+  .prose .hljs-type {
+    color: #1d5a9e;
+  }
+  .prose .hljs-meta,
+  .prose .hljs-deletion {
+    color: #5f6368;
+  }
+
+  /* Dashboard writing area */
+  .rich-editor .tiptap {
+    min-height: 22rem;
+    max-width: none;
+    padding: 1.25rem;
+    outline: none;
+  }
   .prose img {
     border-radius: 0.6rem;
     border: 1px solid var(--line);

@@ -4,7 +4,8 @@ import type { AdminField } from "~/utils/admin";
 const props = defineProps<{
   fields: AdminField[];
   errors: Record<string, string>;
-  // While creating, slug fields follow their source field until edited by hand
+  // While creating, slug fields follow their source field until edited by hand. Clearing a slug
+  // resumes this, and on any form an empty slug is filled when the source field loses focus.
   autoSlug?: boolean;
 }>();
 const model = defineModel<Record<string, any>>({ required: true });
@@ -14,13 +15,20 @@ const needsServices = props.fields.some((field) => field.type === "service");
 const { data: services } = await useAsyncData("admin-services", () => (needsServices ? adminFetch<{ id: number; title: string }[]>("/api/admin/services") : Promise.resolve([])));
 
 const slugTouched = ref(false);
-for (const field of props.fields.filter((f) => f.type === "slug" && f.from)) {
+const slugFields = props.fields.filter((f) => f.type === "slug" && f.from);
+for (const field of slugFields) {
   watch(
     () => model.value[field.from!],
     (source) => {
       if (props.autoSlug && !slugTouched.value) model.value[field.key] = slugify(String(source ?? ""));
     },
   );
+}
+
+function fillEmptySlug(source: string) {
+  for (const field of slugFields) {
+    if (field.from === source && !model.value[field.key]) model.value[field.key] = slugify(String(model.value[source] ?? ""));
+  }
 }
 
 // Text representations of array fields
@@ -67,7 +75,7 @@ const draft = reactive<Record<string, string | undefined>>({});
           @blur="draft[field.key] = undefined"
         />
         <input v-else-if="field.type === 'number'" :id="`${uid}-${field.key}`" v-model.number="model[field.key]" type="number" min="0" class="field" />
-        <input v-else-if="field.type === 'slug'" :id="`${uid}-${field.key}`" v-model="model[field.key]" class="field font-mono text-sm" @input="slugTouched = true" />
+        <input v-else-if="field.type === 'slug'" :id="`${uid}-${field.key}`" v-model="model[field.key]" class="field font-mono text-sm" @input="slugTouched = Boolean(model[field.key])" />
         <input v-else-if="field.type === 'url'" :id="`${uid}-${field.key}`" v-model="model[field.key]" type="url" inputmode="url" placeholder="https://" class="field" />
         <div v-else-if="field.type === 'icon'" class="flex items-center gap-3">
           <input :id="`${uid}-${field.key}`" v-model="model[field.key]" class="field font-mono text-sm" />
@@ -82,7 +90,7 @@ const draft = reactive<Record<string, string | undefined>>({});
         </select>
         <AdminMediaPicker v-else-if="field.type === 'media'" v-model="model[field.key]" />
         <AdminMediaPicker v-else-if="field.type === 'gallery'" v-model="model[field.key]" multiple />
-        <input v-else :id="`${uid}-${field.key}`" v-model="model[field.key]" class="field" />
+        <input v-else :id="`${uid}-${field.key}`" v-model="model[field.key]" class="field" @blur="fillEmptySlug(field.key)" />
 
         <p v-if="errors[field.key]" class="mt-1 text-sm text-danger" role="alert">{{ errors[field.key] }}</p>
         <p v-else-if="field.hint" class="mt-1 text-sm text-muted">{{ field.hint }}</p>

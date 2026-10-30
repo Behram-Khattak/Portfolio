@@ -2,22 +2,20 @@
 const model = defineModel<string>({ required: true });
 defineProps<{ id: string }>();
 
-const previewing = ref(false);
-// Same renderer as the public site, so the preview is exact
-const html = computed(() => (previewing.value ? renderMarkdown(model.value) : ""));
+const mode = ref<"visual" | "markdown">("visual");
 </script>
 
 <template>
   <div>
     <div class="mb-2 flex gap-1" role="tablist">
-      <button type="button" role="tab" :aria-selected="!previewing" :class="['btn btn-sm', previewing ? 'text-muted' : 'btn-ghost']" @click="previewing = false">Write</button>
-      <button type="button" role="tab" :aria-selected="previewing" :class="['btn btn-sm', previewing ? 'btn-ghost' : 'text-muted']" @click="previewing = true">Preview</button>
+      <button type="button" role="tab" :aria-selected="mode === 'visual'" :class="['btn btn-sm', mode === 'visual' ? 'btn-ghost' : 'text-muted']" @click="mode = 'visual'">Visual</button>
+      <button type="button" role="tab" :aria-selected="mode === 'markdown'" :class="['btn btn-sm', mode === 'markdown' ? 'btn-ghost' : 'text-muted']" @click="mode = 'markdown'">Markdown</button>
     </div>
-    <textarea v-show="!previewing" :id="id" v-model="model" rows="16" class="field font-mono text-sm" spellcheck="true" />
-    <div v-if="previewing" class="min-h-40 rounded-lg border border-line bg-surface p-5">
-      <p v-if="!html" class="text-muted">Nothing to preview yet.</p>
-      <div v-else class="prose" v-html="html" />
-    </div>
-    <p class="mt-1 text-sm text-muted">Markdown: ## heading, **bold**, [link](https://…), `code`, lists. Raw HTML is not rendered.</p>
+    <!-- The editor rebuilds from the model each time, so edits in either tab carry over -->
+    <LazyAdminRichTextEditor v-if="mode === 'visual'" :id="id" v-model="model" />
+    <template v-else>
+      <textarea :id="id" v-model="model" rows="16" class="field font-mono text-sm" spellcheck="true" />
+      <p class="mt-1 text-sm text-muted">Markdown: ## heading, **bold**, [link](https://…), `code`, ``` code block. Raw HTML is not rendered.</p>
+    </template>
   </div>
 </template>
