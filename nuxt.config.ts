@@ -65,6 +65,8 @@ export default defineNuxtConfig({
     // Public GitHub user id of the only account allowed into the dashboard
     adminGithubId: "81041662",
     deployHookUrl: "",
+    cfAnalyticsToken: "",
+    cfAccountId: "e9783ce806c868723f68235c3de9f58b",
     public: { siteUrl: "https://behramkttk.dev", mediaUrl: "https://media.behramkttk.dev", turnstileSiteKey: "" },
   },
 

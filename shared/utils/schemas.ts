@@ -117,6 +117,20 @@ export type SiteSettings = { [K in SettingsKey]: z.infer<(typeof settingsSchemas
 
 export const mediaUpdateSchema = z.object({ alt: text(255) });
 
+const DAY_MS = 86400000;
+// Cloudflare limits: a query spans at most 93 days, and data goes back about 184 days
+export const ANALYTICS_MAX_DAYS = 93;
+export const ANALYTICS_HISTORY_DAYS = 184;
+
+const day = z.iso.date("Use a valid date");
+const filterValue = z.string().trim().min(1).max(200).optional();
+
+export const analyticsQuerySchema = z
+  .object({ from: day, to: day, path: filterValue, country: filterValue, device: filterValue, browser: filterValue, referrer: filterValue })
+  .refine((q) => q.from <= q.to, "The start date must be before the end date")
+  .refine((q) => (Date.parse(q.to) - Date.parse(q.from)) / DAY_MS < ANALYTICS_MAX_DAYS, `Choose ${ANALYTICS_MAX_DAYS} days or fewer`)
+  .refine((q) => (Date.now() - Date.parse(q.from)) / DAY_MS <= ANALYTICS_HISTORY_DAYS, `Data only goes back ${ANALYTICS_HISTORY_DAYS} days`);
+
 export const contactSchema = z.object({
   name: z.string().trim().min(2, "Please enter your name").max(120),
   email: z.email("Please enter a valid email").max(191),

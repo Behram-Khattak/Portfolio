@@ -184,7 +184,12 @@ export const adminFetch = $fetch.create({
 });
 
 export const adminNav: { title?: string; items: { to: string; label: string; icon: string; exact?: boolean }[] }[] = [
-  { items: [{ to: "/admin", label: "Overview", icon: "lucide:house", exact: true }] },
+  {
+    items: [
+      { to: "/admin", label: "Overview", icon: "lucide:house", exact: true },
+      { to: "/admin/analytics", label: "Analytics", icon: "lucide:chart-column" },
+    ],
+  },
   {
     title: "Content",
     items: [
