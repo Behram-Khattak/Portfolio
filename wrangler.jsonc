@@ -1,0 +1,16 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "portfolio",
+  "compatibility_date": "2026-01-01",
+  "compatibility_flags": ["nodejs_compat"],
+  "observability": { "enabled": true },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "portfolio",
+      "database_id": "6639b46d-fbcf-4507-8245-fcaad40ae9e9",
+      "migrations_dir": "server/database/migrations"
+    }
+  ],
+  "r2_buckets": [{ "binding": "portfolio_media", "bucket_name": "portfolio-media" }]
+}

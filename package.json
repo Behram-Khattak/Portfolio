@@ -8,8 +8,8 @@
   },
   "scripts": {
     "dev": "nuxt dev",
-    "generate": "nuxt generate",
-    "preview": "npx serve .output/public",
+    "build": "nuxt build",
+    "preview": "npx wrangler --cwd .output dev",
     "postinstall": "nuxt prepare",
     "typecheck": "nuxt typecheck"
   },
@@ -19,14 +19,22 @@
     "@nuxt/fonts": "^0.14.0",
     "@nuxt/icon": "^2.5.1",
     "@tailwindcss/vite": "^4.3.3",
+    "drizzle-orm": "^0.45.4",
+    "jose": "^6.2.14",
+    "markdown-it": "^15.0.3",
     "nuxt": "^4.6.0",
     "tailwindcss": "^4.3.3",
     "vue": "^3.5.43",
-    "vue-router": "^5.4.0"
+    "vue-router": "^5.4.0",
+    "zod": "^4.6.7"
   },
   "devDependencies": {
+    "@types/markdown-it": "^14.2.0",
     "@types/node": "^26.6.4",
+    "drizzle-kit": "^0.31.11",
+    "nitro-cloudflare-dev": "^0.2.2",
     "typescript": "^5.9.3",
-    "vue-tsc": "^3.3.12"
+    "vue-tsc": "^3.3.12",
+    "wrangler": "^4.156.0"
   }
 }
