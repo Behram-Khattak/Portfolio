@@ -32,9 +32,6 @@ watch(() => route.fullPath, () => (open.value = false));
       </nav>
 
       <div class="flex items-center gap-2">
-        <BriefButton class="mr-3 hidden items-center gap-2 border-b border-fg pb-1 text-[0.95rem] font-medium transition-opacity hover:opacity-70 lg:inline-flex">
-          Start a project <Icon name="lucide:arrow-up-right" size="16" />
-        </BriefButton>
         <BriefButton kind="consultation" class="btn btn-primary btn-sm hidden sm:inline-flex">Book a free consultation</BriefButton>
         <button
           type="button"
@@ -54,7 +51,6 @@ watch(() => route.fullPath, () => (open.value = false));
       <div class="shell flex flex-col py-3">
         <NuxtLink v-for="link in links" :key="link.to" :to="link.to" class="py-3 text-lg">{{ link.label }}</NuxtLink>
         <BriefButton kind="consultation" class="btn btn-primary mt-3">Book a free consultation</BriefButton>
-        <BriefButton class="btn btn-ghost mt-2">Start a project</BriefButton>
       </div>
     </nav>
   </header>
