@@ -47,7 +47,7 @@ useSeoMeta({
           </ul>
 
           <div class="mt-8 flex flex-wrap gap-3">
-            <NuxtLink to="/contact" class="btn btn-primary">Get a quote</NuxtLink>
+            <BriefButton :service="service.title" class="btn btn-primary">Get a quote</BriefButton>
             <NuxtLink to="/projects" class="btn btn-ghost">See my work</NuxtLink>
           </div>
         </div>

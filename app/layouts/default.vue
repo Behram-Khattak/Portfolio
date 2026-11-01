@@ -1,5 +1,6 @@
 <script setup lang="ts">
 const site = useSite();
+const { request: brief } = useBrief();
 const { public: { siteUrl } } = useRuntimeConfig();
 
 useHead({
@@ -39,5 +40,6 @@ useSeoMeta({
       <slot />
     </main>
     <SiteFooter />
+    <LazyBriefDialog v-if="brief" />
   </div>
 </template>

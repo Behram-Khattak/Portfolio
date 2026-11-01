@@ -13,13 +13,26 @@ async function passesTurnstile(event: H3Event, token: string, ip: string) {
 }
 
 export default defineEventHandler(async (event) => {
-  const { turnstileToken, ...inquiry } = await readValidatedBody(event, contactSchema.parse);
+  const body = await readValidatedBody(event, contactSchema.parse);
   const ip = getHeader(event, "cf-connecting-ip") ?? "";
 
-  if (!(await passesTurnstile(event, turnstileToken, ip))) {
+  if (!(await passesTurnstile(event, body.turnstileToken, ip))) {
     throw createError({ statusCode: 403, statusMessage: "Spam check failed" });
   }
 
-  await useDb().insert(schema.inquiries).values({ ...inquiry, ip });
+  const details = Object.fromEntries(schema.INQUIRY_DETAIL_KEYS.map((key) => [key, body[key]]).filter(([, value]) => value?.length));
+  await useDb()
+    .insert(schema.inquiries)
+    .values({
+      kind: body.kind,
+      name: body.name,
+      email: body.email,
+      company: body.company,
+      service: body.services.join(", ").slice(0, 160),
+      budget: body.budget,
+      message: body.message,
+      details,
+      ip,
+    });
   return { ok: true };
 });

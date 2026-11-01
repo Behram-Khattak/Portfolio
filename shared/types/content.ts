@@ -18,4 +18,5 @@ export type SiteData = {
   contact: { email: string; phone: string; whatsapp: string; location: string; availability: string };
   socials: { github: string; linkedin: string; youtube: string; x: string };
   resumeUrl: string;
+  services: { title: string; icon: string; tagline: string }[];
 };

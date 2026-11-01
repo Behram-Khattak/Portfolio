@@ -10,6 +10,9 @@ const updatedAt = () =>
     .notNull()
     .default(sql`(unixepoch())`)
     .$onUpdateFn(() => new Date());
+export type InquiryDetails = Partial<Record<(typeof INQUIRY_DETAIL_KEYS)[number], string | string[]>>;
+export const INQUIRY_DETAIL_KEYS = ["services", "stage", "features", "timeline", "preferredDate", "preferredTime", "meetingType", "timezone", "phone", "contactMethod", "companySize", "website"] as const;
+
 const json = <T>(name: string) => text(name, { mode: "json" }).$type<T>();
 
 export const media = sqliteTable("media", {
@@ -123,6 +126,9 @@ export const inquiries = sqliteTable(
     service: text("service").notNull().default(""),
     budget: text("budget").notNull().default(""),
     message: text("message").notNull(),
+    kind: text("kind").notNull().default("project"),
+    // Everything else from the brief, shown as labelled rows in the dashboard
+    details: json<InquiryDetails>("details").notNull().default({}),
     ip: text("ip").notNull().default(""),
     isRead: flag("is_read").notNull().default(false),
     createdAt: createdAt(),

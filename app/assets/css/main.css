@@ -145,6 +145,58 @@
     border-color: var(--danger);
   }
 
+  /* The project brief popup and its tap-to-choose options */
+  .brief-dialog {
+    width: min(46rem, calc(100vw - 2rem));
+    max-height: calc(100dvh - 2rem);
+    margin: auto;
+    overflow-y: auto;
+    border: 1px solid var(--line);
+    border-radius: 1.25rem;
+    background: var(--base);
+    color: var(--fg);
+  }
+  .brief-dialog::backdrop {
+    background: rgb(23 24 26 / 0.55);
+  }
+  .choice {
+    display: inline-flex;
+    padding: 0.45rem 0.85rem;
+    border: 1px solid var(--line);
+    border-radius: 9999px;
+    background: var(--surface);
+    font-size: 0.92rem;
+    cursor: pointer;
+    transition: background-color 0.12s, border-color 0.12s, color 0.12s;
+  }
+  .choice-card {
+    display: block;
+    padding: 0.75rem 0.9rem;
+    border: 1px solid var(--line);
+    border-radius: 0.75rem;
+    background: var(--surface);
+    cursor: pointer;
+    transition: border-color 0.12s, box-shadow 0.12s;
+  }
+  .choice:hover,
+  .choice-card:hover {
+    border-color: var(--fg);
+  }
+  .choice.is-on {
+    border-color: var(--fg);
+    background: var(--fg);
+    color: var(--base);
+  }
+  .choice-card.is-on {
+    border-color: var(--fg);
+    box-shadow: inset 0 0 0 1px var(--fg);
+  }
+  .choice:has(:focus-visible),
+  .choice-card:has(:focus-visible) {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+
   /* The dashboard has its own quiet, dense look. Everything is scoped here so the public site
      is untouched. As with .dark-band, the Tailwind colour variables are restated too. */
   .admin-shell {

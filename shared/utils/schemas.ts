@@ -131,12 +131,38 @@ export const analyticsQuerySchema = z
   .refine((q) => (Date.parse(q.to) - Date.parse(q.from)) / DAY_MS < ANALYTICS_MAX_DAYS, `Choose ${ANALYTICS_MAX_DAYS} days or fewer`)
   .refine((q) => (Date.now() - Date.parse(q.from)) / DAY_MS <= ANALYTICS_HISTORY_DAYS, `Data only goes back ${ANALYTICS_HISTORY_DAYS} days`);
 
-export const contactSchema = z.object({
-  name: z.string().trim().min(2, "Please enter your name").max(120),
-  email: z.email("Please enter a valid email").max(191),
-  company: text(160),
-  service: text(160),
-  budget: text(60),
-  message: z.string().trim().min(20, "A little more detail helps (20+ characters)").max(5000),
-  turnstileToken: z.string().min(1, "Please complete the spam check").max(4096),
-});
+const choiceList = z.array(text(80)).max(14);
+
+// The project brief and the consultation request. Most answers are tap-to-choose options.
+export const contactSchema = z
+  .object({
+    kind: z.enum(["project", "consultation"]),
+    name: z.string().trim().min(2, "Please enter your name").max(120),
+    email: z.email("Please enter a valid email").max(191),
+    phone: text(40),
+    company: text(160),
+    companySize: text(60),
+    website: text(200),
+    contactMethod: text(40),
+    services: choiceList.min(1, "Choose at least one option"),
+    stage: text(80),
+    features: choiceList,
+    timeline: text(60),
+    budget: text(60),
+    preferredDate: z.union([z.literal(""), z.iso.date("Choose a valid date")]),
+    preferredTime: text(60),
+    meetingType: text(60),
+    timezone: text(60),
+    message: text(5000),
+    turnstileToken: z.string().min(1, "Please complete the spam check").max(4096),
+  })
+  .superRefine((data, context) => {
+    const need = (path: string, value: string, message: string) => {
+      if (!value) context.addIssue({ code: "custom", path: [path], message });
+    };
+    if (data.kind === "project") need("stage", data.stage, "Choose where the project is now");
+    if (data.kind === "consultation") {
+      need("preferredTime", data.preferredTime, "Choose a time of day");
+      need("meetingType", data.meetingType, "Choose how you'd like to meet");
+    }
+  });

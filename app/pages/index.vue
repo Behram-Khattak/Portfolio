@@ -38,11 +38,13 @@ const workflow = [
         <h1 class="mt-7 max-w-[13ch] text-[2.9rem] font-normal sm:text-7xl lg:text-[6.5rem]">{{ home.hero.headline }}</h1>
         <p class="mt-6 max-w-[54ch] text-lg text-muted md:text-xl">{{ home.hero.subhead }}</p>
         <div class="mt-9 flex flex-wrap justify-center gap-3">
-          <NuxtLink to="/contact" class="btn btn-primary">Start a project <Icon name="lucide:arrow-up-right" size="16" /></NuxtLink>
-          <NuxtLink to="/projects" class="btn btn-ghost bg-base/60 backdrop-blur">See my work</NuxtLink>
+          <BriefButton kind="consultation" class="btn btn-primary">Book a free consultation <Icon name="lucide:arrow-up-right" size="16" /></BriefButton>
+          <BriefButton class="btn btn-ghost bg-base/60 backdrop-blur">Start a project</BriefButton>
         </div>
         <p class="mt-6 text-muted">
-          Hiring for a role?
+          <NuxtLink to="/projects" class="link">See my work</NuxtLink>
+          <span class="mx-2" aria-hidden="true">or</span>
+          hiring for a role?
           <NuxtLink to="/about" class="link">See my experience<template v-if="site.resumeUrl"> and résumé</template></NuxtLink>
         </p>
 
@@ -122,7 +124,7 @@ const workflow = [
         <p class="mt-8 max-w-[44ch] text-lg text-muted">
           Four clear steps from first conversation to a product in your customers' hands, with a written scope and price agreed before any work starts.
         </p>
-        <NuxtLink to="/contact" class="btn btn-ghost mt-8">Start with step one</NuxtLink>
+        <BriefButton kind="consultation" class="btn btn-ghost mt-8">Start with step one</BriefButton>
       </div>
       <ProcessCircle :steps="workflow" />
       </div>
