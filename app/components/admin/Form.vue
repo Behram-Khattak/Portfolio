@@ -90,8 +90,21 @@ const draft = reactive<Record<string, string | undefined>>({});
         </select>
         <AdminMediaPicker v-else-if="field.type === 'media'" v-model="model[field.key]" />
         <AdminMediaPicker v-else-if="field.type === 'gallery'" v-model="model[field.key]" multiple />
+        <div v-else-if="field.type === 'faqs'" class="space-y-3">
+          <div v-for="(faq, index) in model[field.key]" :key="index" class="admin-card space-y-2 p-3">
+            <input v-model="faq.question" class="field" :aria-label="`Question ${Number(index) + 1}`" placeholder="Question" />
+            <textarea v-model="faq.answer" rows="3" class="field" :aria-label="`Answer ${Number(index) + 1}`" placeholder="Answer" />
+            <button type="button" class="btn btn-danger btn-sm" @click="model[field.key].splice(index, 1)">Remove question</button>
+          </div>
+          <button type="button" class="btn btn-ghost btn-sm" @click="model[field.key].push({ question: '', answer: '' })">
+            <Icon name="lucide:plus" size="14" /> Add a question
+          </button>
+        </div>
         <input v-else :id="`${uid}-${field.key}`" v-model="model[field.key]" class="field" @blur="fillEmptySlug(field.key)" />
 
+        <p v-if="field.counter" :class="['mt-1 text-[0.8125rem]', (model[field.key]?.length ?? 0) > field.counter ? 'text-danger' : 'text-muted']">
+          {{ model[field.key]?.length ?? 0 }} of about {{ field.counter }} characters
+        </p>
         <p v-if="errors[field.key]" class="mt-1 text-sm text-danger" role="alert">{{ errors[field.key] }}</p>
         <p v-else-if="field.hint" class="mt-1 text-sm text-muted">{{ field.hint }}</p>
       </template>

@@ -3,31 +3,38 @@ const site = useSite();
 const { request: brief } = useBrief();
 const { public: { siteUrl } } = useRuntimeConfig();
 
+const { public: { seo } } = useRuntimeConfig();
+const base = siteUrl.replace(/\/$/, "");
+
+// Who runs the site, shared by every page. Pages add their own structured data with usePageSeo.
 useHead({
   titleTemplate: (title) => (title ? `${title} | ${site.value.site.name}` : `${site.value.site.name} | ${site.value.site.role}`),
   script: [
-    {
-      type: "application/ld+json",
-      // "<" is escaped so stored settings can never close the script element
-      innerHTML: JSON.stringify({
+    jsonLdScript(
+      {
         "@context": "https://schema.org",
-        "@type": "Person",
-        name: site.value.site.name,
-        jobTitle: site.value.site.role,
-        description: site.value.site.description,
-        url: siteUrl,
-        email: site.value.contact.email,
-        sameAs: Object.values(site.value.socials).filter(Boolean),
-      }).replace(/</g, "\\u003c"),
-    },
+        "@graph": [
+          { "@type": "WebSite", "@id": `${base}/#website`, url: `${base}/`, name: site.value.site.name, publisher: { "@id": personId() } },
+          {
+            "@type": "Person",
+            "@id": personId(),
+            name: site.value.site.name,
+            jobTitle: site.value.site.role,
+            description: site.value.site.description,
+            url: `${base}/`,
+            email: site.value.contact.email,
+            telephone: site.value.contact.phone || undefined,
+            address: { "@type": "PostalAddress", addressLocality: seo.locality, addressCountry: seo.country },
+            knowsAbout: (site.value.services ?? []).map((service) => service.title),
+            sameAs: Object.values(site.value.socials).filter(Boolean),
+          },
+        ],
+      },
+      "site-ld",
+    ),
   ],
 });
-useSeoMeta({
-  description: site.value.site.description,
-  ogSiteName: site.value.site.name,
-  ogType: "website",
-  twitterCard: "summary",
-});
+useSeoMeta({ ogSiteName: site.value.site.name });
 </script>
 
 <template>

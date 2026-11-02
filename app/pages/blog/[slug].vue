@@ -7,11 +7,29 @@ const post = data as Ref<NonNullable<typeof data.value>>;
 const body = ref<HTMLElement>();
 useCodeCopy(body);
 
-useSeoMeta({
+const base = useRuntimeConfig().public.siteUrl.replace(/\/$/, "");
+usePageSeo({
   title: post.value.title,
   description: post.value.excerpt,
-  ogType: "article",
-  ogImage: post.value.cover?.url,
+  type: "article",
+  image: post.value.cover?.url,
+  breadcrumbs: [
+    { name: "Blog", path: "/blog" },
+    { name: post.value.title, path: `/blog/${post.value.slug}` },
+  ],
+  jsonLd: [
+    {
+      "@type": "BlogPosting",
+      headline: post.value.title,
+      description: post.value.excerpt,
+      url: `${base}/blog/${post.value.slug}`,
+      mainEntityOfPage: `${base}/blog/${post.value.slug}`,
+      image: post.value.cover?.url,
+      datePublished: post.value.publishedAt ? new Date(post.value.publishedAt).toISOString() : undefined,
+      author: { "@id": personId() },
+      keywords: post.value.tags.join(", ") || undefined,
+    },
+  ],
 });
 </script>
 

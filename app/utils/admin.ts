@@ -11,8 +11,10 @@ import {
 export type AdminField = {
   key: string;
   label: string;
-  type: "text" | "textarea" | "markdown" | "slug" | "url" | "number" | "boolean" | "tags" | "list" | "media" | "gallery" | "service" | "icon";
+  type: "text" | "textarea" | "markdown" | "slug" | "url" | "number" | "boolean" | "tags" | "list" | "media" | "gallery" | "service" | "icon" | "faqs";
   hint?: string;
+  // Shows a character count against this recommended length
+  counter?: number;
   // For slug fields: the field the slug is generated from while creating
   from?: string;
   wide?: boolean;
@@ -85,8 +87,8 @@ export const adminResources: Record<string, AdminResource> = {
     schema: serviceSchema,
     labelKey: "title",
     columns: [{ key: "title", label: "Title" }, { key: "tagline", label: "Tagline" }],
-    defaults: { slug: "", title: "", tagline: "", description: "", icon: "lucide:sparkles", deliverables: [], sortOrder: 0, published: true },
-    publicPath: (item) => `/services#${item.slug}`,
+    defaults: { slug: "", title: "", tagline: "", description: "", icon: "lucide:sparkles", deliverables: [], metaTitle: "", metaDescription: "", faqs: [], sortOrder: 0, published: true },
+    publicPath: (item) => `/services/${item.slug}`,
     fields: [
       { key: "title", label: "Title", type: "text" },
       { key: "slug", label: "URL slug", type: "slug", from: "title" },
@@ -95,6 +97,9 @@ export const adminResources: Record<string, AdminResource> = {
       { key: "deliverables", label: "What's included", type: "list", hint: "One item per line", wide: true },
       { key: "icon", label: "Icon", type: "icon", hint: iconHint },
       sortOrder,
+      { key: "metaTitle", label: "Search result title", type: "text", counter: 60, hint: "Shown as the link in Google. Leave empty to use the service title with your area.", wide: true },
+      { key: "metaDescription", label: "Search result description", type: "textarea", counter: 155, hint: "The short summary under the link in Google.", wide: true },
+      { key: "faqs", label: "Questions clients ask", type: "faqs", hint: "Shown on the service page.", wide: true },
       { key: "published", label: "Published", type: "boolean" },
     ],
   },

@@ -37,6 +37,10 @@ export const services = sqliteTable("services", {
   description: text("description").notNull(),
   icon: text("icon").notNull().default("lucide:sparkles"),
   deliverables: json<string[]>("deliverables").notNull(),
+  // Search result title and description for the service's own page; empty uses sensible defaults
+  metaTitle: text("meta_title").notNull().default(""),
+  metaDescription: text("meta_description").notNull().default(""),
+  faqs: json<{ question: string; answer: string }[]>("faqs").notNull().default([]),
   sortOrder: integer("sort_order").notNull().default(0),
   published: flag("published").notNull().default(true),
   createdAt: createdAt(),

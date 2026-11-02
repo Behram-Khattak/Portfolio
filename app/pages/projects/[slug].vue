@@ -4,10 +4,26 @@ const { data, error } = await useFetch(`/api/projects/${route.params.slug}`);
 if (error.value) throw createError({ statusCode: error.value.statusCode ?? 500, statusMessage: error.value.statusMessage, fatal: true });
 const project = computed(() => data.value!);
 
-useSeoMeta({
+const base = useRuntimeConfig().public.siteUrl.replace(/\/$/, "");
+usePageSeo({
   title: project.value.title,
   description: project.value.summary,
-  ogImage: project.value.cover?.url,
+  image: project.value.cover?.url,
+  breadcrumbs: [
+    { name: "Projects", path: "/projects" },
+    { name: project.value.title, path: `/projects/${project.value.slug}` },
+  ],
+  jsonLd: [
+    {
+      "@type": "CreativeWork",
+      name: project.value.title,
+      description: project.value.summary,
+      url: `${base}/projects/${project.value.slug}`,
+      image: project.value.cover?.url,
+      creator: { "@id": personId() },
+      keywords: project.value.tech.join(", ") || undefined,
+    },
+  ],
 });
 
 const facts = computed(() =>
@@ -55,7 +71,7 @@ const facts = computed(() =>
           </div>
           <div v-if="project.service">
             <dt class="text-sm text-muted">Service</dt>
-            <dd class="text-lg"><NuxtLink :to="{ path: '/services', hash: `#${project.service.slug}` }" class="link">{{ project.service.title }}</NuxtLink></dd>
+            <dd class="text-lg"><NuxtLink :to="`/services/${project.service.slug}`" class="link">{{ project.service.title }}</NuxtLink></dd>
           </div>
         </dl>
       </div>

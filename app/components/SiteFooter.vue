@@ -1,5 +1,6 @@
 <script setup lang="ts">
 const site = useSite();
+const { public: { seo } } = useRuntimeConfig();
 
 const socials = computed(() =>
   [
@@ -22,6 +23,15 @@ const socials = computed(() =>
         </p>
         <a :href="`mailto:${site.contact.email}`" class="link mt-3 inline-block">{{ site.contact.email }}</a>
       </div>
+
+      <nav v-if="site.services?.length" aria-label="Services">
+        <p class="font-medium">Services in {{ seo.area }}</p>
+        <ul class="mt-2 space-y-1">
+          <li v-for="service in site.services" :key="service.slug">
+            <NuxtLink :to="`/services/${service.slug}`" class="text-muted hover:text-fg">{{ service.title }}</NuxtLink>
+          </li>
+        </ul>
+      </nav>
 
       <div class="flex flex-col gap-4 md:items-end">
         <ul class="flex gap-2">

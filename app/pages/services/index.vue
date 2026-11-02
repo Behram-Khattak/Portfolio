@@ -1,8 +1,9 @@
 <script setup lang="ts">
 const { data: services } = await useFetch("/api/services");
-useSeoMeta({
-  title: "Services",
-  description: "Website development, custom web applications, mobile apps and AI integration.",
+usePageSeo({
+  title: "Software Development Services in Qatar",
+  description: "Website development, custom web applications, mobile apps and AI integration for businesses in Qatar, from a full-stack developer based in Doha.",
+  breadcrumbs: [{ name: "Services", path: "/services" }],
 });
 </script>
 
@@ -33,7 +34,9 @@ useSeoMeta({
           <span class="grid size-12 place-items-center rounded-xl bg-accent/12 text-accent ring-1 ring-inset ring-accent/25">
             <Icon :name="service.icon" size="24" />
           </span>
-          <h2 class="mt-5 text-3xl font-normal md:text-4xl">{{ service.title }}</h2>
+          <h2 class="mt-5 text-3xl font-normal md:text-4xl">
+            <NuxtLink :to="`/services/${service.slug}`" class="hover:text-accent">{{ service.title }}</NuxtLink>
+          </h2>
           <p class="mt-3 max-w-[46ch] text-lg">{{ service.tagline }}</p>
           <div class="prose mt-3 !text-[1rem] !leading-relaxed text-muted">
             <p v-for="paragraph in service.description.split(/\n{2,}/)" :key="paragraph">{{ paragraph }}</p>
@@ -48,7 +51,7 @@ useSeoMeta({
 
           <div class="mt-8 flex flex-wrap gap-3">
             <BriefButton :service="service.title" class="btn btn-primary">Get a quote</BriefButton>
-            <NuxtLink to="/projects" class="btn btn-ghost">See my work</NuxtLink>
+            <NuxtLink :to="`/services/${service.slug}`" class="btn btn-ghost">Learn more</NuxtLink>
           </div>
         </div>
       </article>

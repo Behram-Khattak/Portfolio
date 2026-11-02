@@ -3,7 +3,11 @@ const site = useSite();
 const { data } = await useFetch("/api/about");
 const about = computed(() => data.value!);
 
-useSeoMeta({ title: "About", description: `${site.value.site.name}, ${site.value.site.role}. Experience, skills and résumé.` });
+usePageSeo({
+  title: "Full-Stack Developer in Doha, Qatar",
+  description: `About ${site.value.site.name}, a ${site.value.site.role} in Doha, Qatar. Experience, tech stack and résumé.`,
+  breadcrumbs: [{ name: "About", path: "/about" }],
+});
 </script>
 
 <template>

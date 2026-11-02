@@ -1,5 +1,9 @@
 <script setup lang="ts">
-useSeoMeta({ title: "Projects", description: "Websites, web applications and products I have built." });
+usePageSeo({
+  title: "Web and Mobile App Projects",
+  description: "Case studies of the web platforms and mobile apps I've built, including platforms used by schools in Qatar.",
+  breadcrumbs: [{ name: "Projects", path: "/projects" }],
+});
 
 const { data } = await useFetch("/api/projects");
 const projects = computed(() => data.value!.projects);

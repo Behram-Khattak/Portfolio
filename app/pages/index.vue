@@ -3,6 +3,11 @@ const site = useSite();
 const { data } = await useFetch("/api/home");
 const home = computed(() => data.value!);
 
+usePageSeo({
+  title: "Web & Mobile App Developer in Doha, Qatar",
+  description: "Websites, custom web applications, mobile apps and AI features for businesses in Qatar. Book a free consultation with a full-stack developer in Doha.",
+});
+
 // Service whose preview is showing in the Services section
 const activeService = ref(0);
 const shown = computed(() => home.value.services[activeService.value] ?? home.value.services[0]!);
@@ -70,7 +75,7 @@ const workflow = [
         <ul class="border-b border-line">
           <li v-for="(service, index) in home.services" :key="service.slug" class="border-t border-line">
             <NuxtLink
-              :to="{ path: '/services', hash: `#${service.slug}` }"
+              :to="`/services/${service.slug}`"
               class="group flex items-center gap-5 py-6 md:py-8"
               :aria-current="index === activeService ? 'true' : undefined"
               @mouseenter="activeService = index"

@@ -6,6 +6,6 @@ export default defineEventHandler(async (): Promise<SiteData> => {
     contact: settings.contact,
     socials: settings.socials,
     resumeUrl: resume ? mediaUrl(resume.file) : "",
-    services: services.map(({ title, icon, tagline }) => ({ title, icon, tagline })),
+    services: services.map(({ slug, title, icon, tagline }) => ({ slug, title, icon, tagline })),
   };
 });

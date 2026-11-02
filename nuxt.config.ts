@@ -67,7 +67,13 @@ export default defineNuxtConfig({
     deployHookUrl: "",
     cfAnalyticsToken: "",
     cfAccountId: "e9783ce806c868723f68235c3de9f58b",
-    public: { siteUrl: "https://behramkttk.dev", mediaUrl: "https://media.behramkttk.dev", turnstileSiteKey: "" },
+    public: {
+      siteUrl: "https://behramkttk.dev",
+      mediaUrl: "https://media.behramkttk.dev",
+      turnstileSiteKey: "",
+      // The market the site targets in search
+      seo: { area: "Qatar", locality: "Doha", country: "QA" },
+    },
   },
 
   routeRules: {

@@ -2,7 +2,11 @@
 const site = useSite();
 const route = useRoute();
 
-useSeoMeta({ title: "Contact", description: "Book a free consultation, send a project brief, or get in touch about a role." });
+usePageSeo({
+  title: "Book a Free Consultation",
+  description: "Book a free consultation or send a project brief for your website, web app, mobile app or AI project in Qatar. I usually reply within a day or two.",
+  breadcrumbs: [{ name: "Contact", path: "/contact" }],
+});
 
 const service = typeof route.query.service === "string" ? route.query.service.slice(0, 80) : undefined;
 

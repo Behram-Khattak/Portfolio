@@ -1,6 +1,10 @@
 <script setup lang="ts">
 const { data: posts } = await useFetch("/api/posts");
-useSeoMeta({ title: "Blog", description: "Notes on building web apps, AI features and running Linux servers." });
+usePageSeo({
+  title: "Web and App Development Blog",
+  description: "Practical notes on building web apps, mobile apps and AI features, and running them in production.",
+  breadcrumbs: [{ name: "Blog", path: "/blog" }],
+});
 </script>
 
 <template>

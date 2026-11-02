@@ -31,6 +31,9 @@ export const serviceSchema = z.object({
   description: required(10000),
   icon,
   deliverables: stringList(20, 200),
+  metaTitle: text(70),
+  metaDescription: text(170),
+  faqs: z.array(z.object({ question: required(200), answer: required(2000) })).max(12),
   sortOrder,
   published: z.boolean(),
 });
