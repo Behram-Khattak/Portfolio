@@ -1,8 +1,8 @@
 <script setup lang="ts">
 const { data: services } = await useFetch("/api/services");
 usePageSeo({
-  title: "Software Development Services in Qatar",
-  description: "Website development, custom web applications, mobile apps and AI integration for businesses in Qatar, from a full-stack developer based in Doha.",
+  title: "Development Services in Qatar and Remote",
+  description: "Website development, custom web applications, mobile apps and AI integration for businesses in Qatar and remote clients worldwide.",
   breadcrumbs: [{ name: "Services", path: "/services" }],
 });
 </script>
@@ -21,6 +21,7 @@ usePageSeo({
           <Icon :name="service.icon" size="16" class="text-accent" /> {{ service.title }}
         </a>
       </nav>
+      <p class="mt-6 text-muted">Based in Doha, working with clients in Qatar and <NuxtLink to="/remote" class="link">remotely worldwide</NuxtLink>.</p>
     </PageIntro>
 
     <div class="shell mt-16 space-y-20 md:mt-24 md:space-y-28">

@@ -11,7 +11,7 @@ const base = useRuntimeConfig().public.siteUrl.replace(/\/$/, "");
 
 usePageSeo({
   title: service.value.metaTitle || heading.value,
-  description: service.value.metaDescription || `${service.value.tagline} ${service.value.title} for businesses in ${seo.area}, from a full-stack developer based in ${seo.locality}.`,
+  description: service.value.metaDescription || `${service.value.tagline} ${service.value.title} for businesses in ${seo.area} and worldwide, from a developer in ${seo.locality}.`,
   breadcrumbs: [
     { name: "Services", path: "/services" },
     { name: service.value.title, path: `/services/${service.value.slug}` },
@@ -24,7 +24,7 @@ usePageSeo({
       description: service.value.description,
       url: `${base}/services/${service.value.slug}`,
       provider: { "@id": personId() },
-      areaServed: { "@type": "Country", name: seo.area },
+      areaServed: [{ "@type": "Country", name: seo.area }, "Worldwide"],
     },
   ],
 });
@@ -33,6 +33,10 @@ usePageSeo({
 <template>
   <div>
     <PageIntro :title="heading" :lead="service.tagline">
+      <p class="mt-4 text-muted">
+        Based in {{ seo.locality }}, working with clients in {{ seo.area }} and
+        <NuxtLink to="/remote" class="link">remotely worldwide</NuxtLink>.
+      </p>
       <div class="mt-8 flex flex-wrap gap-3">
         <BriefButton kind="consultation" :service="service.title" class="btn btn-primary">Book a free consultation</BriefButton>
         <BriefButton :service="service.title" class="btn btn-ghost">Get a quote</BriefButton>
@@ -54,6 +58,8 @@ usePageSeo({
       </div>
       <ServiceGraphic :slug="service.slug" :icon="service.icon" />
     </section>
+
+    <RemoteWorking />
 
     <section v-if="service.projects.length" class="shell mt-24">
       <SectionHeading :title="`${service.title} I've built.`" sub="Selected work." />

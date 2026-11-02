@@ -18,6 +18,7 @@ export default defineEventHandler(async (event) => {
     ...projectRows.map((row) => ({ path: `/projects/${row.slug}`, lastmod: day(row.updatedAt) })),
     { path: "/blog", lastmod: latest(postRows) },
     ...postRows.map((row) => ({ path: `/blog/${row.slug}`, lastmod: day(row.updatedAt) })),
+    { path: "/remote" },
     { path: "/about" },
     { path: "/contact" },
   ];

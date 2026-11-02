@@ -30,6 +30,7 @@ const socials = computed(() =>
           <li v-for="service in site.services" :key="service.slug">
             <NuxtLink :to="`/services/${service.slug}`" class="text-muted hover:text-fg">{{ service.title }}</NuxtLink>
           </li>
+          <li><NuxtLink to="/remote" class="text-muted hover:text-fg">Working remotely</NuxtLink></li>
         </ul>
       </nav>
 

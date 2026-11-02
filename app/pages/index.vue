@@ -4,8 +4,8 @@ const { data } = await useFetch("/api/home");
 const home = computed(() => data.value!);
 
 usePageSeo({
-  title: "Web & Mobile App Developer in Doha, Qatar",
-  description: "Websites, custom web applications, mobile apps and AI features for businesses in Qatar. Book a free consultation with a full-stack developer in Doha.",
+  title: "Web & Mobile App Developer, Doha and Remote",
+  description: "Websites, web apps, mobile apps and AI features for businesses in Qatar and clients worldwide. Book a free consultation with a developer in Doha.",
 });
 
 // Service whose preview is showing in the Services section
@@ -18,13 +18,6 @@ const arcPosition = (index: number) => {
   return count < 2 ? 0 : -1 + (index * 2) / (count - 1);
 };
 
-// A real sequence, so it is numbered
-const workflow = [
-  { title: "Discovery", text: "A short call or a few messages about what you need, who it is for and when you need it." },
-  { title: "Proposal", text: "You get a written scope, a timeline and a price before any work starts." },
-  { title: "Development", text: "You see working software as it takes shape, not a big reveal at the end." },
-  { title: "Launch & Support", text: "I deploy it, hand over everything, and stay available for fixes and new features." },
-];
 </script>
 
 <template>
@@ -131,7 +124,7 @@ const workflow = [
         </p>
         <BriefButton kind="consultation" class="btn btn-ghost mt-8">Start with step one</BriefButton>
       </div>
-      <ProcessCircle :steps="workflow" />
+      <ProcessCircle :steps="processSteps" />
       </div>
     </section>
 
