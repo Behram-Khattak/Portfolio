@@ -2,7 +2,7 @@
 const { data: services } = await useFetch("/api/services");
 usePageSeo({
   title: "Development Services in Qatar and Remote",
-  description: "Website development, custom web applications, mobile apps and AI integration for businesses in Qatar and remote clients worldwide.",
+  description: "ERP, CMS, POS and portal development for businesses in Qatar and worldwide, plus websites, web and mobile apps, and AI integration.",
   breadcrumbs: [{ name: "Services", path: "/services" }],
 });
 </script>

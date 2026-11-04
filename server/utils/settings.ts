@@ -3,7 +3,7 @@ import { settingsSchemas, type SettingsKey, type SiteSettings } from "#shared/ut
 
 // Used until a key has been saved from the dashboard or seeded
 export const settingsDefaults: SiteSettings = {
-  site: { name: "Behram Khattak", role: "Full-Stack & AI Engineer", description: "Websites, custom web and mobile apps, and AI-powered products." },
+  site: { name: "Behram Khattak", role: "AI-Focused Software Developer", description: "ERP, CMS and POS systems, portals, web and mobile apps, and AI-powered products." },
   contact: { email: "hello@example.com", phone: "", whatsapp: "", location: "", availability: "" },
   socials: { github: "", linkedin: "", youtube: "", x: "" },
   hero: {

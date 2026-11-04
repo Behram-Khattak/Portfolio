@@ -4,8 +4,8 @@ const { data } = await useFetch("/api/home");
 const home = computed(() => data.value!);
 
 usePageSeo({
-  title: "Web & Mobile App Developer, Doha and Remote",
-  description: "Websites, web apps, mobile apps and AI features for businesses in Qatar and clients worldwide. Book a free consultation with a developer in Doha.",
+  title: "AI-Focused Software Developer in Doha",
+  description: "Custom software for businesses in Qatar and worldwide: ERP, CMS and POS systems, portals, web and mobile apps, and AI features. Book a free consultation.",
 });
 
 // Service whose preview is showing in the Services section

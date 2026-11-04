@@ -5,6 +5,8 @@ const { public: { siteUrl } } = useRuntimeConfig();
 
 const { public: { seo } } = useRuntimeConfig();
 const base = siteUrl.replace(/\/$/, "");
+// Kinds of software people search for, listed alongside the services
+const specialties = ["Artificial intelligence", "ERP systems", "Content management systems (CMS)", "Point of sale (POS) systems", "Web portals"];
 
 // Who runs the site, shared by every page. Pages add their own structured data with usePageSeo.
 useHead({
@@ -25,7 +27,7 @@ useHead({
             email: site.value.contact.email,
             telephone: site.value.contact.phone || undefined,
             address: { "@type": "PostalAddress", addressLocality: seo.locality, addressCountry: seo.country },
-            knowsAbout: (site.value.services ?? []).map((service) => service.title),
+            knowsAbout: [...(site.value.services ?? []).map((service) => service.title), ...specialties],
             sameAs: Object.values(site.value.socials).filter(Boolean),
           },
         ],

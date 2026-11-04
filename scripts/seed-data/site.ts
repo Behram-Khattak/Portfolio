@@ -1,8 +1,8 @@
 // Everything about you that appears site-wide. Edit here, then rebuild.
 export const site = {
   "name": "Behram Khattak",
-  "role": "Full-Stack Web & AI Engineer",
-  "description": "Websites, custom web and mobile apps, and AI-powered products, built and deployed end to end by a full-stack engineer based in Doha, Qatar.",
+  "role": "AI-Focused Software Developer",
+  "description": "ERP, CMS and POS systems, portals, web and mobile apps, and AI features, built end to end by an AI-focused software developer in Doha, Qatar.",
   "contact": {
     "email": "behramkttk9@gmail.com",
     "phone": "+974 6691 7419",

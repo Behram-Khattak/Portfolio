@@ -4,15 +4,15 @@ const { data: about } = await useFetch("/api/about");
 const base = useRuntimeConfig().public.siteUrl.replace(/\/$/, "");
 
 usePageSeo({
-  title: "Hire a Remote Full-Stack Developer",
-  description: "Remote web, mobile and AI development for businesses worldwide, from a full-stack developer in Doha who works across time zones.",
+  title: "Hire a Remote Software Developer",
+  description: "Remote software development for businesses worldwide: ERP, CMS and POS systems, portals, web and mobile apps, and AI, from a developer in Doha.",
   breadcrumbs: [{ name: "Working remotely", path: "/remote" }],
   jsonLd: [
     {
       "@type": "Service",
-      name: "Remote full-stack development",
+      name: "Remote software development",
       serviceType: "Software development",
-      description: "Websites, custom web applications, mobile apps and AI features, built remotely for businesses anywhere.",
+      description: "ERP, CMS and POS systems, portals, websites, web and mobile apps and AI features, built remotely for businesses anywhere.",
       url: `${base}/remote`,
       provider: { "@id": personId() },
       areaServed: "Worldwide",

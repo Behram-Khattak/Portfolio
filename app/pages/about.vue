@@ -4,8 +4,8 @@ const { data } = await useFetch("/api/about");
 const about = computed(() => data.value!);
 
 usePageSeo({
-  title: "Full-Stack Developer in Doha, Qatar",
-  description: `About ${site.value.site.name}, a ${site.value.site.role} in Doha, Qatar. Experience, tech stack and résumé.`,
+  title: "Software Developer in Doha, Qatar",
+  description: `About ${site.value.site.name}, ${site.value.site.role} in Doha, Qatar. Experience, tech stack and résumé.`,
   breadcrumbs: [{ name: "About", path: "/about" }],
 });
 </script>
